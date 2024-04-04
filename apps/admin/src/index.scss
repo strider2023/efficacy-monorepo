@@ -1,0 +1,17 @@
+.base-container {
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+    border-radius: 1em;
+    padding: 2em;
+    background-color: #393958;
+}
+
+.base-edit-drawer-container {
+    display: flex;
+}
+
+.base-edit-drawer-form-container {
+    display: flex;
+    width: 100vh;
+    background-color: #393958;
+    box-shadow: rgba(36, 37, 37, 0.2) 0px 8px 24px;
+}

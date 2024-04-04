@@ -1,0 +1,24 @@
+{
+    "entryFile": "src/index.ts",
+    "noImplicitAdditionalProperties": "throw-on-extras",
+    "controllerPathGlobs": [
+        "src/**/*.controller.ts"
+    ],
+    "spec": {
+        "outputDirectory": "build",
+        "specVersion": 3,
+        "securityDefinitions": {
+            "jwt": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "scheme": "bearer",
+                "in": "header"
+            }
+        }
+    },
+    "routes": {
+        "routesDir": "build",
+        "middleware": "./multer-config.ts",
+        "authenticationModule": "./src/auth-config.ts"
+    }
+}

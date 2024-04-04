@@ -1,0 +1,9 @@
+{
+    "name": "@efficacy/constants",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "private": true,
+    "dependencies": {
+        "typescript": "latest"
+    }
+}

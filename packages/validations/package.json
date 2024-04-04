@@ -1,0 +1,9 @@
+{
+    "name": "@efficacy/validations",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "private": true,
+    "dependencies": {
+        "typescript": "latest"
+    }
+}

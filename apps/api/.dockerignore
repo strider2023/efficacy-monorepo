@@ -1,0 +1,16 @@
+node_modules
+.env
+README.md
+package-lock.json
+npm-debug.log
+.git
+.gitignore
+nodemon.json
+tsoa.json
+tsconfig.json
+.idea/
+.vscode/
+uploads/
+efficacy_assets/
+dist/
+build/
