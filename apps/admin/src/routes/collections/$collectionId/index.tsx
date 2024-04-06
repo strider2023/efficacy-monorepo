@@ -115,8 +115,8 @@ function ViewCollection() {
         </Box>
         <div className="base-container">
           <ListHeader
-            pageGroup='Entity Management'
-            pageName='Collection Properties'
+            subtitle='Entity Management'
+            title='Collection Properties'
             navigateTo={onCreateClicked} />
           <TableComponent
             gridRowClick={gridRowClick}
@@ -129,11 +129,11 @@ function ViewCollection() {
           anchor='right'
           open={editOpen}
           sx={{ backgroundColor: 'transparent' }}>
-          <div className="base-edit-drawer-container">
+          <div className="base-drawer-container">
             <Fab size="small" color="primary" aria-label="add" sx={{margin: 3}}>
               <AddIcon />
             </Fab>
-            <div className='base-edit-drawer-form-container'>
+            <div className='base-drawer-form-container'>
 
             </div>
           </div>

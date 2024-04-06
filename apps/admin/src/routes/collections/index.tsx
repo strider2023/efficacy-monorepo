@@ -64,8 +64,8 @@ function CollectionsList() {
     <AdminLayout>
       <Box sx={{ p: 1, width: '100%' }}>
         <ListHeader
-          pageGroup='Entity Management'
-          pageName='Collections'
+          subtitle='Entity Management'
+          title='Collections'
           navigateTo={onCreateClicked} />
         <TableComponent
           gridRowClick={gridRowClick}

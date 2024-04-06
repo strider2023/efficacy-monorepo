@@ -50,8 +50,8 @@ function UsersList() {
     <AdminLayout>
       <Box sx={{ p: 1, width: '100%' }}>
         <ListHeader
-          pageGroup='User Management'
-          pageName='Users'
+          subtitle='User Management'
+          title='Users'
           navigateTo={onCreateClicked} />
         <TableComponent
           gridRowClick={gridRowClick}

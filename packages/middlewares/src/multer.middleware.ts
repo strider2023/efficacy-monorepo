@@ -43,7 +43,7 @@ export const fileFilter = (
 }
 
 export const multerMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    const multerSingle = multer.default({
+    const multerSingle = multer({
         storage: fileStorage
     }).single("file");
     multerSingle(req, res, next);

@@ -1,140 +1,83 @@
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-
-import Groups2RoundedIcon from '@mui/icons-material/Groups2Rounded';
-import TableChartIcon from '@mui/icons-material/TableChart';
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
-import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
-import ArticleRoundedIcon from '@mui/icons-material/ArticleRounded';
-
 import { useNavigate } from '@tanstack/react-router';
 import Box from '@mui/material/Box';
 import { useCookies } from 'react-cookie';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import Logout from '@mui/icons-material/Logout';
+import { MenuItem } from '@efficacy/interfaces';
+import { useEffect, useState } from 'react';
+import CollapseableMenuListItem from './CollapseableMenuListItem';
+import MenuListItem from './MenuListItem';
+import { adminMenuItems, portalUserMenuItems } from '../configurations';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import Typography from '@mui/material/Typography';
+import CardActions from '@mui/material/CardActions';
+import IconButton from '@mui/material/IconButton';
+import { red } from '@mui/material/colors';
+import Divider from '@mui/material/Divider';
 
-interface ListItem {
-    name: string;
-    icon: JSX.Element;
-    path: string;
-}
-
-const listItems: ListItem[] = [
-    {
-        name: "Collection Items",
-        icon: <ArticleRoundedIcon />,
-        path: "/items"
-    },
-    {
-        name: "Collections",
-        icon: <TableChartIcon />,
-        path: "/collections"
-    },
-    {
-        name: "assets",
-        icon: <Inventory2RoundedIcon />,
-        path: "/assets"
-    },
-    {
-        name: "User Management",
-        icon: <SupervisedUserCircleIcon />,
-        path: "/users"
-    },
-    {
-        name: "Roles",
-        icon: <Groups2RoundedIcon />,
-        path: "/roles"
-    },
-]
-
-interface NavigationListProps {
-    open: boolean
-}
-
-function NavigationList({ open }: NavigationListProps) {
+function NavigationList() {
     const [cookies] = useCookies(["efficacy_user"]);
+    const [listItems, setListItems] = useState<MenuItem[]>()
     const navigate = useNavigate();
 
-    const navigateTo = (url: string) => {
-        navigate({ to: url });
-    };
+    useEffect(() => {
+        if (cookies.efficacy_user.adminAccess) {
+            setListItems(adminMenuItems);
+        } else {
+            setListItems(portalUserMenuItems);
+        }
+    }, [cookies.efficacy_user])
 
     return (
-        <>
-            <List>
-                {listItems.map((item, index) => (
-                    <ListItem key={index} disablePadding sx={{ display: 'block' }} onClick={() => navigateTo(item.path)}>
-                        <ListItemButton
-                            sx={{
-                                minHeight: 72,
-                                justifyContent: open ? 'initial' : 'center',
-                                px: 2.5,
-                            }}>
-                            <ListItemIcon
-                                sx={{
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    justifyContent: 'center',
-                                }}>
-                                {item.icon}
-                            </ListItemIcon>
-                            <ListItemText primary={item.name} sx={{ opacity: open ? 1 : 0 }} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-            <Box sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "flex-end",
-                height: '100%'
-            }}>
-                <List>
-                    <ListItem disablePadding sx={{ display: 'block' }}>
-                        <ListItemButton
-                            sx={{
-                                minHeight: 72,
-                                justifyContent: open ? 'initial' : 'center',
-                                px: 2.5,
-                            }}>
-                            <ListItemAvatar>
-                                <Avatar sx={{
-                                    bgcolor: "#ffeb3b",
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    ml: open ? 'auto' : 1,
-                                    justifyContent: 'center',
-                                }}>
-                                    {cookies.efficacy_user.firstname.charAt(0) + cookies.efficacy_user.lastname.charAt(0)}
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary="My Account" sx={{ opacity: open ? 1 : 0 }} />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }}>
-                        <ListItemButton
-                            sx={{
-                                minHeight: 72,
-                                justifyContent: open ? 'initial' : 'center',
-                                px: 2.5,
-                            }}>
-                            <ListItemIcon sx={{
-                                minWidth: 0,
-                                mr: open ? 3 : 'auto',
-                                justifyContent: 'center',
-                            }}>
-                                <Logout />
-                            </ListItemIcon>
-                            <ListItemText primary="Logout" sx={{ opacity: open ? 1 : 0 }} />
-                        </ListItemButton>
-                    </ListItem>
-                </List>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#181825', width: 270 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <img
+                    src="/efficacy-logo.svg"
+                    alt="App Icon"
+                    loading="lazy"
+                    className="menu-header-logo"
+                />
+                <Typography variant="h5">
+                    Efficacy Admin
+                </Typography>
             </Box>
-        </>
+            <Divider />
+            {
+                listItems &&
+                <List>
+                    {
+                        listItems.map((item) => (
+                            <>
+                                {
+                                    item.hasChildren ? <CollapseableMenuListItem data={item} /> : <MenuListItem data={item} />
+                                }
+                            </>
+                        ))
+                    }
+                </List>
+            }
+            <Box sx={{ marginBottom: 'auto' }} />
+            <Card sx={{ maxWidth: 260, marginLeft: 1, marginTop: 'auto', marginRight: 1, marginBottom: 1 }}>
+                <CardHeader
+                    avatar={
+                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                            {cookies.efficacy_user.firstname.charAt(0) + cookies.efficacy_user.lastname.charAt(0)}
+                        </Avatar>
+                    }
+                    title={cookies.efficacy_user.firstname + " " + cookies.efficacy_user.lastname}
+                    subheader={cookies.efficacy_user.email}
+                />
+                <CardActions disableSpacing>
+                    <IconButton aria-label="add to favorites">
+                        <i className="ti ti-logout menu-item-icon"></i>
+                    </IconButton>
+                    <IconButton aria-label="share">
+                        <i className="ti ti-user-edit menu-item-icon"></i>
+                    </IconButton>
+                </CardActions>
+            </Card>
+        </Box>
     );
 }
 

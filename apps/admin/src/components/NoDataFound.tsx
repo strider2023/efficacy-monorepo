@@ -1,7 +1,10 @@
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-
 import { styled } from '@mui/material/styles';
+
+interface NoDatFound {
+    message: string;
+}
 
 const ErrorContainer = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -9,12 +12,10 @@ const ErrorContainer = styled('div')(({ theme }) => ({
     justifyContent: 'center',
     flexDirection: 'column',
     padding: theme.spacing(10, 0),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
 
-
-function NoDatFound({ message }) {
+function NoDatFound({ message }: NoDatFound) {
 
     return (
         <Grid container spacing={2}>

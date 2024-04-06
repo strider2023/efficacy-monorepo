@@ -1,22 +1,29 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, ThemeOptions, Shadows } from '@mui/material/styles';
+
+// create a temporary theme to get the default options
+const defaultTheme = createTheme();
+
+// get the default `shadows` object
+const defaultShadows: ThemeOptions['shadows'] = [...defaultTheme.shadows];
 
 export const appTheme = createTheme({
+    shadows: defaultShadows.map(() => 'none') as Shadows,
     palette: {
         mode: 'dark',
         background: {
-            default: '#181825',
+            default: '#1c2434', //'#181825'
         },
         primary: {
-            light: '#393958',
-            main: '#4caf50',
-            dark: '#4caf50',
-            contrastText: '#fff',
+            light: '#78ccf4',
+            main: '#78ccf4',
+            dark: '#78ccf4',
+            contrastText: '#181825',
         },
         secondary: {
             light: '#181825',
-            main: '#181825',
-            dark: '#181825',
-            contrastText: '#000',
+            main: '#78ccf4',
+            dark: '#78ccf4',
+            contrastText: '#fff',
         },
     },
     components: {
@@ -28,11 +35,17 @@ export const appTheme = createTheme({
         MuiButton: {
             defaultProps: {
                 size: 'large',
+                disableElevation: true,
             },
             styleOverrides: {
                 root: {
-                    borderRadius: 50,
+                    borderRadius: 0,
                 }
+            }
+        },
+        MuiFab: {
+            defaultProps: {
+                size: 'large'
             }
         },
         MuiDrawer: {

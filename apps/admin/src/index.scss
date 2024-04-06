@@ -1,17 +1,36 @@
 .base-container {
     box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
-    border-radius: 1em;
+    border-radius: 0em;
     padding: 2em;
-    background-color: #393958;
+    background-color: #191f2d;
 }
 
-.base-edit-drawer-container {
+.base-drawer-container {
     display: flex;
 }
 
-.base-edit-drawer-form-container {
+.base-drawer-form-container {
     display: flex;
     width: 100vh;
-    background-color: #393958;
+    height: 100vh;
+    background-color: #191f2d;
     box-shadow: rgba(36, 37, 37, 0.2) 0px 8px 24px;
+}
+
+.base-drawer-filter-container {
+    display: flex;
+    width: 320px;
+    height: 100vh;
+    background-color: #191f2d;
+    box-shadow: rgba(36, 37, 37, 0.2) 0px 8px 24px;
+}
+
+.menu-item-icon {
+    font-size: 28px;
+    stroke-width: 0.5em;
+}
+
+.menu-header-logo {
+    height: 40px;
+    margin: 10px;
 }

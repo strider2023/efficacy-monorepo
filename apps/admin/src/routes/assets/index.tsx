@@ -63,8 +63,8 @@ function AssetsList() {
     <AdminLayout>
       <Box sx={{ p: 1, width: '100%' }}>
         <ListHeader
-          pageGroup='Asset Management'
-          pageName='Assets'
+          subtitle='Asset Management'
+          title='Assets'
           navigateTo={onCreateClicked} />
         <TableComponent
           gridRowClick={gridRowClick}
