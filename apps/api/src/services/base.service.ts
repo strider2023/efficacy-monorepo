@@ -1,4 +1,4 @@
-import { AppGetAll, AppQueryParams } from "@efficacy/interfaces";
+import { AppGetAll, AppQueryParams, TableUISchema } from "@efficacy/interfaces";
 import { ActivityTypes, EFFICACY_SCHEMA, FilterOperations, Status } from "@efficacy/constants";
 import { ApiError } from "@efficacy/exceptions";
 import { RedisClient } from "../config/redis-config";
@@ -24,6 +24,8 @@ export abstract class BaseService<BaseSchema> {
         this.db = knex(config);
         this.userEmail = email;
     }
+
+    public abstract getUITableSchema(): TableUISchema;
 
     public async getAll(queryParams: AppQueryParams, status?: Status, key?: string, value?: any): Promise<AppGetAll> {
         const response: AppGetAll = {

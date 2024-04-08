@@ -47,10 +47,10 @@ function NavigationList() {
                 listItems &&
                 <List>
                     {
-                        listItems.map((item) => (
+                        listItems.map((item, index) => (
                             <>
                                 {
-                                    item.hasChildren ? <CollapseableMenuListItem data={item} /> : <MenuListItem data={item} />
+                                    item.hasChildren ? <CollapseableMenuListItem data={item} key={item.name}/> : <MenuListItem data={item} key={item.name}/>
                                 }
                             </>
                         ))

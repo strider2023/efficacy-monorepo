@@ -1,5 +1,5 @@
 import { ActivityTypes, EFFICACY_SCHEMA, Status } from "@efficacy/constants";
-import { CreateUser, IAuthToken, Authentication, AuthenticationResponse, UpdatePassword } from "@efficacy/interfaces";
+import { CreateUser, IAuthToken, Authentication, AuthenticationResponse, UpdatePassword, TableUISchema } from "@efficacy/interfaces";
 import { ApiError, AuthError } from "@efficacy/exceptions";
 import { BaseService } from "./base.service";
 import * as bcrypt from 'bcrypt';
@@ -104,6 +104,10 @@ export class UserService extends BaseService<User> {
         } catch (e) {
             throw new AuthError("Authentication Error", 500, e.message)
         }
+    }
+
+    public getUITableSchema(): TableUISchema {
+        throw new Error("Method not implemented.");
     }
 
     ////////////////////////////// Private Functions ////////////////////////////

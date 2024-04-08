@@ -6,4 +6,5 @@ export * from './src/user.interface';
 export * from './src/auth.interface';
 export * from './src/collection-properties.interface';
 export * from './src/activity.interfaces';
-export * from './src/menu.interfaces';
+export * from './src/ui/menu.interfaces';
+export * from './src/ui/ui-table.schema';

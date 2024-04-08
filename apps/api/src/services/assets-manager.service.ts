@@ -2,6 +2,7 @@ import { EFFICACY_SCHEMA, TABLE_ASSETS } from "@efficacy/constants";
 import { ApiError } from "@efficacy/exceptions";
 import { BaseService } from "./base.service";
 import { Assets } from "@efficacy/schemas";
+import { TableUISchema } from "@efficacy/interfaces";
 
 export class AssetsManagerService extends BaseService<Assets>{
 
@@ -30,5 +31,9 @@ export class AssetsManagerService extends BaseService<Assets>{
         } catch (e) {
             throw new ApiError(`Error creating entry for ${this.entityName}`, 500, e.message);
         }
+    }
+
+    public getUITableSchema(): TableUISchema {
+        throw new Error("Method not implemented.");
     }
 }

@@ -1,11 +1,17 @@
 import { Post, Route, Tags, Get, Put, Delete, Path, Body, Queries, Security, Controller, SuccessResponse, Request } from "tsoa";
 import { RolesService } from "../services";
-import { AppQueryParams, AppGetAll, CreateRole, UpdateRole } from "@efficacy/interfaces";
-import { Roles } from "@efficacy/schemas";
+import { AppQueryParams, AppGetAll, CreateRole, UpdateRole, TableUISchema } from "@efficacy/interfaces";
+import { BaseSchema, Roles } from "@efficacy/schemas";
 
 @Route("api/roles")
 @Tags("Efficacy Roles APIs")
 export class RolesController extends Controller {
+
+    @Get("schema")
+    // @Security("jwt")
+    public getUITableSchema(): TableUISchema {
+        return new RolesService(undefined).getUITableSchema();
+    }
 
     @Get()
     @Security("jwt")

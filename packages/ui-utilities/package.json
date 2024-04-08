@@ -1,0 +1,9 @@
+{
+    "name": "@efficacy/ui-utilities",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "private": true,
+    "dependencies": {
+        "typescript": "latest"
+    }
+}

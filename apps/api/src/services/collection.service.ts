@@ -1,6 +1,6 @@
 import { BaseService } from "./base.service";
 import { EFFICACY_SCHEMA, SYSTEM_TABLES, TABLE_COLLECTIONS, TABLE_COLLECTION_PROPERTIES } from "@efficacy/constants";
-import { CreateCollection } from "@efficacy/interfaces";
+import { CreateCollection, TableUISchema } from "@efficacy/interfaces";
 import { ApiError } from "@efficacy/exceptions";
 import { Status } from "@efficacy/constants";
 import { SchemaBuilder } from "@efficacy/database";
@@ -45,6 +45,10 @@ export class CollectionService extends BaseService<Collections> {
         } catch (e) {
             throw new ApiError(`Error removing entry in ${this.entityName}`, 500, e.message);
         }
+    }
+
+    public getUITableSchema(): TableUISchema {
+        throw new Error("Method not implemented.");
     }
 
     //////////////////// Private Functions //////////////////////////

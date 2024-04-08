@@ -16,6 +16,7 @@ function TableComponent({ gridRowClick, columns, rows, emptyMessage }: TableComp
                 rows.length > 0 ? (
                     <Box sx={{ p: 3, width: '100%' }}>
                         <DataGrid
+                            autoHeight
                             disableColumnFilter
                             disableColumnSelector
                             disableDensitySelector
