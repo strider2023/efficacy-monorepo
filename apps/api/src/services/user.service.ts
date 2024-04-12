@@ -106,10 +106,6 @@ export class UserService extends BaseService<User> {
         }
     }
 
-    public getUITableSchema(): TableUISchema {
-        throw new Error("Method not implemented.");
-    }
-
     ////////////////////////////// Private Functions ////////////////////////////
     private async createSession(user: User, sessionId?: string, callbackUrl?: string): Promise<AuthenticationResponse> {
         const expiry = parseInt(JWT_EXPIRY || '3600');

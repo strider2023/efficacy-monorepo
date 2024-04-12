@@ -32,8 +32,4 @@ export class AssetsManagerService extends BaseService<Assets>{
             throw new ApiError(`Error creating entry for ${this.entityName}`, 500, e.message);
         }
     }
-
-    public getUITableSchema(): TableUISchema {
-        throw new Error("Method not implemented.");
-    }
 }

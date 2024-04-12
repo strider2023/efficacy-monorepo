@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="21.944 54.647 178.142 171.256" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <path d="M 225.956 123.64 Q 231.068 114.888 236.179 123.64 L 254.355 154.759 Q 259.467 163.511 249.243 163.511 L 212.892 163.511 Q 202.668 163.511 207.78 154.759 Z" style="transform-box: fill-box; transform-origin: 50% 50%; fill: rgb(255, 235, 59); stroke: rgba(0, 0, 0, 0);" transform="matrix(0, 1, -1, 0, -105.573181, -2.012026)" bx:shape="triangle 202.668 114.888 56.799 48.623 0.5 0.18 1@7f2b9a1c"/>
+  <path d="M 109.932 74.045 Q 118.762 58.09 127.591 74.045 L 158.985 130.775 Q 167.815 146.73 150.156 146.73 L 87.367 146.73 Q 69.708 146.73 78.538 130.775 Z" style="transform-box: fill-box; transform-origin: 50% 50%; fill: rgb(76, 175, 80); stroke: rgba(0, 0, 0, 0);" transform="matrix(0, 1, -1, 0, 0.000001, 0.000017)" bx:shape="triangle 69.708 58.09 98.107 88.64 0.5 0.18 1@b05961d2"/>
+  <path d="M 109.932 74.045 Q 118.762 58.09 127.591 74.045 L 158.985 130.775 Q 167.815 146.73 150.156 146.73 L 87.367 146.73 Q 69.708 146.73 78.538 130.775 Z" style="transform-origin: 118.762px 106.399px; fill: rgb(76, 175, 80); stroke: rgba(0, 0, 0, 0);" transform="matrix(0, 1, -1, 0, -0.001491, 67.997375)" bx:shape="triangle 69.708 58.09 98.107 88.64 0.5 0.18 1@b05961d2"/>
+</svg>

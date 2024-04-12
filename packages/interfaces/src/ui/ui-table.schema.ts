@@ -8,6 +8,8 @@ export interface TableUISchema {
     addURL?: string
     editURL?: string
     deleteURL?: string
+    deleteHeader?: string
+    deleteDescription?: string
     defaultRowId?: string
     pageSizeOptions?: number[]
     properties: TableUISchemaProperties[]
@@ -16,8 +18,5 @@ export interface TableUISchema {
 export interface TableUISchemaProperties {
     field: string
     headerName: string
-    flex?: number 
-    align?: string, 
-    headerAlign?: string, 
     type?: UITableColumnTypes
 }

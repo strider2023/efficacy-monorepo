@@ -25,8 +25,6 @@ export abstract class BaseService<BaseSchema> {
         this.userEmail = email;
     }
 
-    public abstract getUITableSchema(): TableUISchema;
-
     public async getAll(queryParams: AppQueryParams, status?: Status, key?: string, value?: any): Promise<AppGetAll> {
         const response: AppGetAll = {
             result: []

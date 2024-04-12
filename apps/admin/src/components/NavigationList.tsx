@@ -50,7 +50,7 @@ function NavigationList() {
                         listItems.map((item, index) => (
                             <>
                                 {
-                                    item.hasChildren ? <CollapseableMenuListItem data={item} key={item.name}/> : <MenuListItem data={item} key={item.name}/>
+                                    item.hasChildren ? <CollapseableMenuListItem data={item} key={index}/> : <MenuListItem data={item} key={index}/>
                                 }
                             </>
                         ))

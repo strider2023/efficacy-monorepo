@@ -1,26 +1,25 @@
 import { Post, Route, Tags, Get, Put, Delete, Path, Body, Queries, Security, Controller, SuccessResponse, Request } from "tsoa";
-import { RolesService } from "../services";
-import { AppQueryParams, AppGetAll, CreateRole, UpdateRole } from "@efficacy/interfaces";
-import { Roles } from "@efficacy/schemas";
+import { RolesService, TemplateService } from "../services";
+import { AppQueryParams, AppGetAll, CreateRole, UpdateRole, TableUISchema } from "@efficacy/interfaces";
 
-@Route("api/roles")
-@Tags("Efficacy Roles APIs")
-export class RolesController extends Controller {
+@Route("api/template")
+@Tags("Efficacy Templates APIs")
+export class TemplatesController extends Controller {
 
-    @Get()
-    @Security("jwt")
-    public async getAll(
-        @Queries() queryParams: AppQueryParams
-    ): Promise<AppGetAll> {
-        return new RolesService(undefined).getAll(queryParams);
+    @Get("{templateId}/table")
+    // @Security("jwt")
+    public getUITableSchema(
+        @Path() templateId: string,
+    ): TableUISchema {
+        return new TemplateService().getUITableSchema(templateId);
     }
 
-    @Get("{rolesId}")
+    @Get("{templateId}")
     @Security("jwt")
     public async get(
-        @Path() rolesId: string,
-    ): Promise<Roles> {
-        return new RolesService(undefined).get(rolesId, 'roleId');
+        @Path() templateId: string,
+    ): Promise<void> {
+        // return new RolesService(undefined).get(rolesId, 'roleId');
     }
 
     @SuccessResponse("201", "Created")
@@ -31,7 +30,7 @@ export class RolesController extends Controller {
         @Body() request: CreateRole
     ): Promise<void> {
         this.setStatus(201)
-        await new RolesService(req.user.email).create(request);
+        // await new RolesService(req.user.email).create(request);
         return;
     }
 
@@ -43,7 +42,7 @@ export class RolesController extends Controller {
         @Path() rolesId: string,
         @Body() request: UpdateRole
     ): Promise<void> {
-        await new RolesService(req.user.email).update(request, rolesId, 'roleId');
+        // await new RolesService(req.user.email).update(request, rolesId, 'roleId');
         return;
     }
 
@@ -54,7 +53,7 @@ export class RolesController extends Controller {
         @Request() req: any,
         @Path() rolesId: string,
     ): Promise<void> {
-        await new RolesService(req.user.email).delete(rolesId, 'roleId');
+        // await new RolesService(req.user.email).delete(rolesId, 'roleId');
         return;
     }
 }

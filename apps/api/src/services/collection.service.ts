@@ -46,11 +46,7 @@ export class CollectionService extends BaseService<Collections> {
             throw new ApiError(`Error removing entry in ${this.entityName}`, 500, e.message);
         }
     }
-
-    public getUITableSchema(): TableUISchema {
-        throw new Error("Method not implemented.");
-    }
-
+    
     //////////////////// Private Functions //////////////////////////
 
     private async deteleCollectionProperties(collectionId: string) {

@@ -82,10 +82,6 @@ export class CollectionPropertiesService extends BaseService<CollectionProperty>
         }
     }
 
-    public getUITableSchema(): TableUISchema {
-        throw new Error("Method not implemented.");
-    }
-
     /////////////// Private functions //////////////////////
 
     private async getCollection(collectionId: string): Promise<Collections> {

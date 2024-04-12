@@ -8,8 +8,4 @@ export class ActivityService extends BaseService<Activity>{
     constructor() {
         super(`${EFFICACY_SCHEMA}.${TABLE_ACTIVITY}`, 'Activity')
     }
-
-    public getUITableSchema(): TableUISchema {
-        throw new Error("Method not implemented.");
-    }
 }
