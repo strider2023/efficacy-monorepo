@@ -1,78 +1,35 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import AdminLayout from '../../layouts/AdminLayout'
-import { Box } from '@mui/material'
-import ListHeader from '../../components/ListHeader'
-import TableComponent from '../../components/TableComponent'
-import { useCookies } from 'react-cookie'
-import { useEffect, useState } from 'react'
-import { GridRowParams, MuiEvent, GridCallbackDetails, GridValueGetterParams, GridColDef } from '@mui/x-data-grid'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import axios from 'axios'
+import Cookies from 'js-cookie';
+import AppTable from '../../components/AppTable'
 
 export const Route = createFileRoute('/collections/')({
-  component: CollectionsList
+  component: CollectionsList,
+  validateSearch: (search: Record<string, unknown>): Record<string, unknown> => {
+    return {
+      offset: Number(search?.offset ?? 0),
+      limit: Number(search?.offset ?? 50),
+    }
+  },
+  loaderDeps: ({ search: { offset, limit } }) => ({ offset, limit }),
+  loader: async ({ deps: { offset, limit } }) => {
+    const config = { headers: { Authorization: `${Cookies.get('efficacy_token')}`, } };
+    const [response1, reponse2] = await Promise.all([
+      axios.get(`${import.meta.env.VITE_BASE_URL}/api/template/collections/table`, config),
+      axios.get(`${import.meta.env.VITE_BASE_URL}/api/collection?limit=${limit}&offset=${offset}&showCount=true`, config)
+    ]);
+    return { pageConfig: response1.data, rows: reponse2.data };
+  }
 })
 
 function CollectionsList() {
-  const baseURL = import.meta.env.VITE_BASE_URL;
-  const navigate = useNavigate();
-  const [cookies] = useCookies(["efficacy_token"]);
-  const [rows, setRows] = useState([]);
-  const columns: GridColDef[] = [
-    { field: 'displayName', headerName: 'Name', flex: 1, align: 'center', headerAlign: 'center' },
-    { field: 'collectionId', headerName: 'Collection Id', flex: 1, align: 'center', headerAlign: 'center' },
-    { field: 'schemaName', headerName: 'Schema Name', flex: 1, align: 'center', headerAlign: 'center' },
-    { field: 'tableName', headerName: 'Table Name', flex: 1, align: 'center', headerAlign: 'center' },
-    {
-      field: 'status',
-      headerName: 'Status',
-      flex: 1, align: 'center', headerAlign: 'center',
-      renderCell: (params: GridValueGetterParams) => {
-        if (params.row.status === 'active') {
-          return <CheckCircleIcon color="primary" />;
-        } else {
-          return <HighlightOffIcon />;
-        }
-      },
-    },
-  ];
-
-  useEffect(() => {
-    axios.get(baseURL + '/api/collection?properties=id&properties=collectionId&properties=displayName&properties=description&properties=schemaName&properties=tableName&&properties=status',
-      {
-        headers: {
-          Authorization: `${cookies.efficacy_token}`,
-        },
-      }).then((resp) => {
-        setRows(resp.data.result);
-      })
-  }, [cookies.efficacy_token]);
-
-  const gridRowClick = (
-    params: GridRowParams,
-    event: MuiEvent,
-    details: GridCallbackDetails) => {
-    navigate({ from: '/collections/', to: '/collections/' + params.row.collectionId });
-  };
-
-  const onCreateClicked = () => {
-    navigate({from: '/collections', to: '/collections/create' })
-  }
+  const { offset, limit } = Route.useSearch()
+  const { pageConfig, rows } = Route.useLoaderData();
 
   return (
     <AdminLayout>
-      <Box sx={{ p: 1, width: '100%' }}>
-        <ListHeader
-          subtitle='Entity Management'
-          title='Collections'
-          navigateTo={onCreateClicked} />
-        <TableComponent
-          gridRowClick={gridRowClick}
-          columns={columns}
-          rows={rows}
-        />
-      </Box>
+      <AppTable offset={offset} limit={limit} pageConfig={pageConfig} rows={rows} />
     </AdminLayout>
   )
 }

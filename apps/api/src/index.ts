@@ -9,8 +9,8 @@ import helmet from "helmet";
 import * as cors from "cors";
 import { errorHandlerMiddleware, rateLimiterConfig } from "@efficacy/middlewares";
 import { RedisClient } from "./config/redis-config";
-import { migrate } from "./database/migrations";
-import { seed } from "./database/seeds";
+import knex from "knex";
+import config from "@efficacy/database/src/knexfile";
 
 dotenv.config();
 
@@ -54,8 +54,14 @@ try {
     app.listen(PORT, async () => {
         console.log("Server is running on port: " + PORT);
         RedisClient.getInstance().connect();
-        await migrate();
-        await seed();
+        knex(config).migrate.latest()
+            .then(() => {
+                console.log('Migration complete');
+                knex(config).seed.run()
+                    .then(() => {
+                        console.log('Data seed complete');
+                    });
+            });
     });
 } catch (e) {
     console.error(e)

@@ -1,6 +1,6 @@
 import knex from 'knex';
 import config from '../knexfile';
-import { EFFICACY_SCHEMA, TABLE_ACTIVITY } from '@efficacy/constants';
+import { EFFICACY_SCHEMA, TABLE_ACTIVITY, TABLE_USERS } from '@efficacy/constants';
 
 export async function createActivityTable(): Promise<boolean> {
     const knexInstance = knex(config);
@@ -19,9 +19,10 @@ export async function createActivityTable(): Promise<boolean> {
                     t.string('userId').nullable();
                     t.boolean('isSystem').nullable();
                     t.string('ip').nullable();
-                    t.timestamp('when', { useTz: true }).defaultTo(knexInstance.fn.now());
+                    t.timestamp('createdAt', { useTz: true }).defaultTo(knexInstance.fn.now());
+                    t.timestamp('updatedAt', { useTz: true }).defaultTo(knexInstance.fn.now());
 
-                    t.foreign('userId').references('email').inTable(`${EFFICACY_SCHEMA}.${TABLE_ACTIVITY}`).onUpdate('CASCADE').onDelete('CASCADE');
+                    t.foreign('userId').references('email').inTable(`${EFFICACY_SCHEMA}.${TABLE_USERS}`).onUpdate('CASCADE').onDelete('CASCADE');
                     resolve(true);
                 });
             }

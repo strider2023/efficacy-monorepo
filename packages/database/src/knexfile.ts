@@ -19,10 +19,10 @@ const config: Knex.Config = {
     ssl: DB_SSL ? { rejectUnauthorized: false } : false,
   },
   migrations: {
-    directory: './migrations'
+    directory: './src/migrations'
   },
   seeds: {
-    directory: './seeds'
+    directory: './src/seeds'
   }
 };
 

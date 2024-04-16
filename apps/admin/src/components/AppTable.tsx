@@ -36,14 +36,28 @@ function AppTable({ offset, limit, pageConfig, rows }: AppTable) {
                 }
             );
         },
-        [],
+        [pageConfig?.deleteDescription, pageConfig?.deleteHeader, pageConfig.deleteURL],
+    );
+
+    const viewItem = useCallback(
+        (params: any) => () => {
+            navigate({ to: getProccessedString(pageConfig.viewURL, params.row) });
+        },
+        [navigate, pageConfig.viewURL],
     );
 
     const editItem = useCallback(
         (params: any) => () => {
             navigate({ to: getProccessedString(pageConfig.editURL, params.row) });
         },
-        [],
+        [navigate, pageConfig.editURL],
+    );
+
+    const duplicateItem = useCallback(
+        (params: any) => () => {
+            navigate({ to: getProccessedString(pageConfig.duplicateURL, params.row) });
+        },
+        [navigate, pageConfig.duplicateURL],
     );
 
     const setPaginationModel = (model: GridPaginationModel, details: GridCallbackDetails<any>): void => {
@@ -53,11 +67,48 @@ function AppTable({ offset, limit, pageConfig, rows }: AppTable) {
     }
 
     const setAdditionalPropertyConfigs = (properties: any) => {
-        let apiProperties = [];
-        for (let prop of properties) {
+        const apiProperties = [];
+        for (const prop of properties) {
             apiProperties.push({ ...prop, ...{ flex: 1, align: 'center', headerAlign: 'center' } });
         }
         return apiProperties;
+    }
+
+    const populateActions = (params: unknown) => {
+        const actions = [];
+        if (Object.prototype.hasOwnProperty.call(pageConfig, 'viewURL')) {
+            actions.push(<GridActionsCellItem
+                icon={<i className="ti ti-eye menu-item-icon"></i>}
+                label="Edit"
+                onClick={viewItem(params)}
+                showInMenu
+            />)
+        }
+        if (Object.prototype.hasOwnProperty.call(pageConfig, 'editURL')) {
+            actions.push(<GridActionsCellItem
+                icon={<i className="ti ti-edit menu-item-icon"></i>}
+                label="Edit"
+                onClick={editItem(params)}
+                showInMenu
+            />)
+        }
+        if (Object.prototype.hasOwnProperty.call(pageConfig, 'deleteURL')) {
+            actions.push(<GridActionsCellItem
+                icon={<i className="ti ti-trash menu-item-icon"></i>}
+                label="Delete"
+                onClick={deleteItem(params)}
+                showInMenu
+            />)
+        }
+        if (Object.prototype.hasOwnProperty.call(pageConfig, 'duplicateURL')) {
+            actions.push(<GridActionsCellItem
+                icon={<i className="ti ti-copy menu-item-icon"></i>}
+                label="Duplicate"
+                onClick={duplicateItem(params)}
+                showInMenu
+            />)
+        }
+        return actions;
     }
 
     return (
@@ -82,9 +133,12 @@ function AppTable({ offset, limit, pageConfig, rows }: AppTable) {
                             Filter
                         </Fab>
                     }
-                    <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={() => navigate({ to: pageConfig.addURL })}>
-                        <i className="ti ti-plus menu-item-icon"></i>
-                    </Fab>
+                    {
+                        pageConfig.addURL &&
+                        <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={() => navigate({ to: pageConfig.addURL })}>
+                            <i className="ti ti-plus menu-item-icon"></i>
+                        </Fab>
+                    }
                 </Box>
             </Box>
             <Box sx={{ p: 3, width: '100%' }}>
@@ -96,26 +150,7 @@ function AppTable({ offset, limit, pageConfig, rows }: AppTable) {
                         field: 'actions',
                         type: 'actions',
                         flex: 1, align: 'center', headerAlign: 'center',
-                        getActions: (params: any) => [
-                            <GridActionsCellItem
-                                icon={<i className="ti ti-edit menu-item-icon"></i>}
-                                label="Edit"
-                                onClick={editItem(params)}
-                                showInMenu
-                            />,
-                            <GridActionsCellItem
-                                icon={<i className="ti ti-copy menu-item-icon"></i>}
-                                label="Duplicate"
-                                onClick={editItem(params)}
-                                showInMenu
-                            />,
-                            <GridActionsCellItem
-                                icon={<i className="ti ti-trash menu-item-icon"></i>}
-                                label="Delete"
-                                onClick={deleteItem(params)}
-                                showInMenu
-                            />
-                        ],
+                        getActions: (params: unknown) => populateActions(params)
                     }]}
                     sx={{
                         '&, [class^=MuiDataGrid]': { border: 'none' },

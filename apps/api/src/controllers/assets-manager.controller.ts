@@ -28,8 +28,8 @@ export class AssetsManagerController extends Controller {
         @FormField() tags?: string[],
         // @UploadedFile() file?: Express.Multer.File,
     ): Promise<any> {
-        // console.log(request.file);
-        return await new AssetsManagerService(request.user.email).uploadFile(
+        console.log(request.file);
+        return await new AssetsManagerService(undefined).uploadFile(
             request.file,
             description,
             tags);
@@ -72,9 +72,9 @@ export class AssetsManagerController extends Controller {
             const assetDetails = await new AssetsManagerService(undefined).get(assetId, 'assetId');
             const filePath = path.join(__dirname, '../../', assetDetails.destination, assetDetails.assetId);
             fs.unlinkSync(filePath);
-            await new AssetsManagerService(request.user.email).delete(assetId, 'assetId');
+            await new AssetsManagerService(undefined).delete(assetId, 'assetId');
         } catch (e) {
-            throw new ApiError("Download Asset error", 500, e.message);
+            throw new ApiError("Delete Asset error", 500, e.message);
         }
     }
 }

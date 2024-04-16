@@ -21,7 +21,8 @@ export async function createCollectionsTable(): Promise<boolean> {
                     t.boolean('isPublic').nullable().defaultTo(true);
                     t.boolean('useTimestamps').nullable().defaultTo(true);
                     t.enu('status', SYSTEM_TABLE_STATUS).defaultTo('active');
-                    t.timestamp('when', { useTz: true }).defaultTo(knexInstance.fn.now());
+                    t.timestamp('createdAt', { useTz: true }).defaultTo(knexInstance.fn.now());
+                    t.timestamp('updatedAt', { useTz: true }).defaultTo(knexInstance.fn.now());
                     resolve(true);
                 });
             }

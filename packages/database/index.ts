@@ -1,6 +1,5 @@
 export * from './src/knexfile';
 export * from './src/dynamic-schema-builder';
-export * from './src/migrations/20240404101213_default-migrations';
 export * from './src/create-scripts/activity';
 export * from './src/create-scripts/assets';
 export * from './src/create-scripts/collection-properties';

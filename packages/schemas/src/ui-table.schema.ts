@@ -1,6 +1,7 @@
-import { UITableColumnTypes } from "@efficacy/constants"
+import { BaseSchema } from "./base.schema";
 
-export interface TableUISchema {
+export interface UITable extends BaseSchema {
+    collectionId: string
     title: string
     subtitle?: string
     showFilter?: boolean
@@ -12,11 +13,4 @@ export interface TableUISchema {
     deleteHeader?: string
     deleteDescription?: string
     defaultRowId?: string
-    properties: TableUISchemaProperties[]
-}
-
-export interface TableUISchemaProperties {
-    field: string
-    headerName: string
-    type?: UITableColumnTypes
 }

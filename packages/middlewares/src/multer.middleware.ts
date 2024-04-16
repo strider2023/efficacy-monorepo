@@ -11,7 +11,7 @@ export const fileStorage = multer.diskStorage({
         file: Express.Multer.File,
         callback: DestinationCallback
     ): void => {
-        console.log(request.body.path);
+        console.log('path', JSON.stringify(request.body));
         const path = `./efficacy_assets/${request.body.path || ''}`;
         fs.mkdirSync(path, { recursive: true });
         callback(null, path)

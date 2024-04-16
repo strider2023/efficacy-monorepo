@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@efficacy/ui-utilities": "*",
     "@efficacy/interfaces": "*",
+    "@efficacy/ui-utilities": "*",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@fontsource/poppins": "^5.0.13",
@@ -35,6 +35,7 @@
     "react": "^18.2.0",
     "react-cookie": "^7.1.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-grid-layout": "^1.4.4",
     "reactflow": "^11.10.4",
     "sort-by": "^0.0.2"

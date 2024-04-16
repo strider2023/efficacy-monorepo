@@ -5,3 +5,5 @@ export * from './src/collections.schema';
 export * from './src/activity.schema';
 export * from './src/assets.schema';
 export * from './src/collection-properties.schema';
+export * from './src/ui-table.schema';
+export * from './src/ui-table-properties.schema';

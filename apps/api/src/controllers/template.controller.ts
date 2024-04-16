@@ -10,7 +10,7 @@ export class TemplatesController extends Controller {
     // @Security("jwt")
     public getUITableSchema(
         @Path() templateId: string,
-    ): TableUISchema {
+    ): TableUISchema|undefined {
         return new TemplateService().getUITableSchema(templateId);
     }
 

@@ -1,6 +1,6 @@
 import { knex } from 'knex';
 import config from '../knexfile';
-import { EFFICACY_SCHEMA, SYSTEM_COLLECTION_TABLE_TYPES, SYSTEM_TABLE_STATUS, TABLE_COLLECTION_PROPERTIES } from '@efficacy/constants';
+import { EFFICACY_SCHEMA, SYSTEM_COLLECTION_TABLE_TYPES, SYSTEM_TABLE_STATUS, TABLE_COLLECTIONS, TABLE_COLLECTION_PROPERTIES } from '@efficacy/constants';
 
 export async function createCollectionPropertiesTable(): Promise<boolean> {
     const knexInstance = knex(config);
@@ -39,10 +39,11 @@ export async function createCollectionPropertiesTable(): Promise<boolean> {
                     t.string('foreignKeyTable').nullable();
                     t.json('additionalMetadata').nullable();
                     t.enu('status', SYSTEM_TABLE_STATUS).defaultTo('active');
-                    t.timestamp('when', { useTz: true }).defaultTo(knexInstance.fn.now());
+                    t.timestamp('createdAt', { useTz: true }).defaultTo(knexInstance.fn.now());
+                    t.timestamp('updatedAt', { useTz: true }).defaultTo(knexInstance.fn.now());
 
                     t.foreign('collectionId').references('collectionId')
-                        .inTable(`${EFFICACY_SCHEMA}.${TABLE_COLLECTION_PROPERTIES}`)
+                        .inTable(`${EFFICACY_SCHEMA}.${TABLE_COLLECTIONS}`)
                         .onUpdate('CASCADE').onDelete('CASCADE');
                     resolve(true);
                 });

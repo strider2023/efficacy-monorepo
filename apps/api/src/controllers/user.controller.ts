@@ -14,7 +14,7 @@ export class UserController extends Controller {
     public async getUsers(
         @Queries() queryParams: AppQueryParams
     ): Promise<AppGetAll> {
-        queryParams.properties = ['id', 'firstname', 'middlename', 'lastname', 'phone', 'email'];
+        queryParams.properties = ['id', 'firstname', 'middlename', 'lastname', 'phone', 'email', 'status', 'createdAt', 'updatedAt'];
         return new UserService().getAll(queryParams, Status.ACTIVE);
     }
 

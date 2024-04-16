@@ -2,7 +2,6 @@ import { EFFICACY_SCHEMA, TABLE_ASSETS } from "@efficacy/constants";
 import { ApiError } from "@efficacy/exceptions";
 import { BaseService } from "./base.service";
 import { Assets } from "@efficacy/schemas";
-import { TableUISchema } from "@efficacy/interfaces";
 
 export class AssetsManagerService extends BaseService<Assets>{
 
@@ -24,10 +23,7 @@ export class AssetsManagerService extends BaseService<Assets>{
                 description: description,
                 tags: tags
             }
-            return await this.db
-                .into(this.tableName)
-                .returning('assetId')
-                .insert(request);
+            return await this.create(request, ['assetId']);
         } catch (e) {
             throw new ApiError(`Error creating entry for ${this.entityName}`, 500, e.message);
         }

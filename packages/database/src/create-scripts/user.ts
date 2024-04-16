@@ -26,7 +26,8 @@ export async function createUserTable(): Promise<boolean> {
                     t.specificType('tags', 'text ARRAY').nullable();
                     t.json('additionalMetadata').nullable();
                     t.enu('status', SYSTEM_TABLE_STATUS).defaultTo('active');
-                    t.timestamp('when', { useTz: true }).defaultTo(knexInstance.fn.now());
+                    t.timestamp('createdAt', { useTz: true }).defaultTo(knexInstance.fn.now());
+                    t.timestamp('updatedAt', { useTz: true }).defaultTo(knexInstance.fn.now());
 
                     t.foreign('roleId').references('id').inTable(`${EFFICACY_SCHEMA}.${TABLE_ROLES}`).onUpdate('CASCADE').onDelete('CASCADE');
                     resolve(true);
