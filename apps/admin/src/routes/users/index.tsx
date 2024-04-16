@@ -1,8 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import axios from 'axios';
 import AdminLayout from '../../layouts/AdminLayout';
 import Cookies from 'js-cookie';
 import AppTable from '../../components/AppTable';
+import { Box, Fab } from '@mui/material';
 
 export const Route = createFileRoute('/users/')({
   component: UsersList,
@@ -26,9 +27,29 @@ export const Route = createFileRoute('/users/')({
 function UsersList() {
   const { offset, limit } = Route.useSearch()
   const { pageConfig, rows } = Route.useLoaderData();
-
+  const navigate = useNavigate();
+  
   return (
-    <AdminLayout>
+    <AdminLayout
+      title={pageConfig.title}
+      subtitle={pageConfig.subtitle}
+      menuItem={
+        <Box>
+          {
+            pageConfig.showFilter &&
+            <Fab color="primary" aria-label="add" variant="extended" sx={{ m: 1 }}>
+              <i className="ti ti-adjustments menu-item-icon"></i>
+              Filter
+            </Fab>
+          }
+          {
+            pageConfig.addURL &&
+            <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={() => navigate({ to: pageConfig.addURL })}>
+              <i className="ti ti-plus menu-item-icon"></i>
+            </Fab>
+          }
+        </Box>
+      }>
       <AppTable offset={offset} limit={limit} pageConfig={pageConfig} rows={rows} />
     </AdminLayout>
   )

@@ -1,14 +1,15 @@
-import { Box, Typography, Fab, IconButton } from "@mui/material";
+import { Box, Typography, Fab, IconButton, Hidden } from "@mui/material";
 import { useRouter } from "@tanstack/react-router";
 
-interface ListHeader {
+interface AppHeader {
     title: string,
-    subtitle: string,
+    subtitle?: string,
+    handleDrawerOpen?: () => void
     showBack?: boolean,
-    navigateTo: () => void
+    menuItem?: JSX.Element
 }
 
-function ListHeader({ subtitle, title, showBack, navigateTo }: ListHeader) {
+function AppHeader({ subtitle, title, showBack, handleDrawerOpen, menuItem }: AppHeader) {
     const router = useRouter();
 
     const goBack = () => {
@@ -16,13 +17,16 @@ function ListHeader({ subtitle, title, showBack, navigateTo }: ListHeader) {
     }
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: 2, marginBottom: 2 }}>
+            <Hidden lgUp>
+                <IconButton aria-label="navigatio menu" sx={{ ml: 2 }} onClick={handleDrawerOpen}>
+                    <i className="ti ti-layout-sidebar-left-expand menu-item-icon"></i>
+                </IconButton>
+            </Hidden>
             {
                 showBack &&
                 <IconButton
-                    color="inherit"
                     aria-label="back"
-                    sx={{ mr: 2 }}
                     onClick={goBack}>
                     <i className="ti ti-arrow-left menu-item-icon"></i>
                 </IconButton>
@@ -35,17 +39,11 @@ function ListHeader({ subtitle, title, showBack, navigateTo }: ListHeader) {
                     {subtitle}
                 </Typography>
             </Box>
-            <Box>
-                <Fab color="primary" aria-label="add" variant="extended" sx={{ m: 1 }}>
-                    <i className="ti ti-adjustments menu-item-icon"></i>
-                    Filter
-                </Fab>
-                <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={navigateTo}>
-                    <i className="ti ti-plus menu-item-icon"></i>
-                </Fab>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', mr: 2 }}>
+                {menuItem}
             </Box>
         </Box>
     );
 }
 
-export default ListHeader
+export default AppHeader

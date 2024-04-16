@@ -1,13 +1,13 @@
 import { materialRenderers, materialCells } from '@jsonforms/material-renderers';
 import { JsonForms } from '@jsonforms/react';
-import { Box } from '@mui/material';
+import { Box, Fab } from '@mui/material';
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import axios from 'axios';
 import Notiflix from 'notiflix';
 import { useState, useEffect, SetStateAction } from 'react';
 import { useCookies } from 'react-cookie';
 import { updateRoleSchema, updateRoleUISchema } from '../../../configurations';
-import AdminChildLayout from '../../../layouts/AdminChildLayout';
+import AdminLayout from '../../../layouts/AdminLayout';
 
 export const Route = createFileRoute('/roles/$roleId/edit')({
   component: EditRole
@@ -37,16 +37,16 @@ function EditRole() {
   }, [roleId, cookies.efficacy_token]);
 
   const handleSave = async () => {
-    if (errorData.length == 0) {
-      await axios.put(`${baseURL}/api/roles/${roleId}`, formData, {
-        headers: {
-          Authorization: `${cookies.efficacy_token}`,
-        },
-      });
-      navigate({ to: '/roles/' });
-    } else {
+    if (errorData.length > 0) {
       Notiflix.Notify.warning('Please fix errors before proceeding.', undefined, { position: 'right-bottom' });
     }
+    await axios.put(`${baseURL}/api/roles/${roleId}`, formData, {
+      headers: {
+        Authorization: `${cookies.efficacy_token}`,
+      },
+    });
+    Notiflix.Notify.success('Data updated successfully.', undefined, { position: 'right-bottom' });
+    navigate({ to: '/roles/' });
   };
 
   const handleOnChange = async (data: SetStateAction<{}>, error) => {
@@ -55,12 +55,16 @@ function EditRole() {
   }
 
   return (
-    <AdminChildLayout
-      pageGroup='Permissions Management'
-      pageName='Update Role'
-      showSave='Update Role'
-      onSave={handleSave}>
-      <Box maxWidth="lg">
+    <AdminLayout
+      title='Create Role'
+      subtitle='Permissions Management'
+      showBack={true}
+      menuItem={
+        <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={handleSave}>
+          <i className="ti ti-device-floppy menu-item-icon"></i>
+        </Fab>
+      }>
+      <Box maxWidth="lg" sx={{ m: 2 }}>
         <form onSubmit={handleSave}>
           <JsonForms
             schema={updateRoleSchema}
@@ -72,6 +76,6 @@ function EditRole() {
           />
         </form>
       </Box>
-    </AdminChildLayout>
+    </AdminLayout>
   );
 }

@@ -1,11 +1,12 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import AdminChildLayout from '../../../layouts/AdminChildLayout';
 import Box from '@mui/material/Box';
 import { JsonForms } from '@jsonforms/react';
 import { materialRenderers, materialCells } from '@jsonforms/material-renderers';
 import { SetStateAction, useState } from 'react';
 import axios from 'axios';
 import Notiflix from 'notiflix';
+import { Fab } from '@mui/material';
+import AdminLayout from '../../../layouts/AdminLayout';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -26,12 +27,12 @@ function CreateCollectionItem() {
 
     const handleSave = async () => {
         console.log(formData, errorData);
-        if (errorData.length == 0) {
-            await axios.post(baseURL + '/api/collection/' + collectionId + '/item', formData);
-            navigate({ to: '/items/' });
-        } else {
+        if (errorData.length > 0) {
             Notiflix.Notify.warning('Please fix errors before proceeding.', undefined, { position: 'right-bottom' });
         }
+        await axios.post(baseURL + '/api/collection/' + collectionId + '/item', formData);
+        Notiflix.Notify.success('Data added successfully.', undefined, { position: 'right-bottom' });
+        navigate({ to: '/items/' });
     };
 
     const handleOnChange = async (data: SetStateAction<{}>, error) => {
@@ -40,11 +41,15 @@ function CreateCollectionItem() {
     }
 
     return (
-        <AdminChildLayout
-            pageGroup='Collection Item'
-            pageName='Add Item'
-            showSave='Save Item'
-            onSave={handleSave}>
+        <AdminLayout
+            title='New Collection Item'
+            subtitle='Entity Management'
+            showBack={true}
+            menuItem={
+                <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={handleSave}>
+                    <i className="ti ti-device-floppy menu-item-icon"></i>
+                </Fab>
+            }>
             <Box maxWidth="lg">
                 <form onSubmit={handleSave}>
                     {template.uiSchema ? (
@@ -67,6 +72,6 @@ function CreateCollectionItem() {
                     )}
                 </form>
             </Box>
-        </AdminChildLayout>
+        </AdminLayout>
     );
 }

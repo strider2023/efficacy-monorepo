@@ -1,6 +1,6 @@
 import { materialRenderers, materialCells } from '@jsonforms/material-renderers';
 import { JsonForms } from '@jsonforms/react';
-import { Box } from '@mui/material';
+import { Box, Fab } from '@mui/material';
 import { createFileRoute } from '@tanstack/react-router'
 import axios from 'axios';
 import Notiflix from 'notiflix';
@@ -10,6 +10,7 @@ import { createAssetsSchema, createAssetsUISchema } from '../../configurations';
 import AdminChildLayout from '../../layouts/AdminChildLayout';
 import Dropzone from 'react-dropzone';
 import './index.scss';
+import AdminLayout from '../../layouts/AdminLayout';
 
 export const Route = createFileRoute('/assets/create')({
   component: CreateAsset
@@ -61,11 +62,15 @@ function CreateAsset() {
   }
 
   return (
-    <AdminChildLayout
-      pageGroup='Asset Management'
-      pageName='Create Asset'
-      showSave='Create Asset'
-      onSave={handleSave}>
+    <AdminLayout
+      title='New Asset'
+      subtitle='Asset Management'
+      showBack={true}
+      menuItem={
+        <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={handleSave}>
+          <i className="ti ti-device-floppy menu-item-icon"></i>
+        </Fab>
+      }>
       <Box maxWidth="lg">
         <form onSubmit={handleSave}>
           <Dropzone onDrop={acceptedFiles => onFileUploaded(acceptedFiles)}>
@@ -90,6 +95,6 @@ function CreateAsset() {
           />
         </form>
       </Box>
-    </AdminChildLayout>
+    </AdminLayout>
   );
 }

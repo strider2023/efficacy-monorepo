@@ -112,82 +112,52 @@ function AppTable({ offset, limit, pageConfig, rows }: AppTable) {
     }
 
     return (
-        <Box sx={{ p: 1, width: '100%' }}>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', flexDirection: 'column', flexGrow: 1, ml: 1 }}>
-                    <Typography variant="h5" >
-                        {pageConfig.title}
-                    </Typography>
+        <Box sx={{ p: 2 }}>
+            <DataGrid
+                autoHeight
+                disableRowSelectionOnClick
+                rows={rows.result}
+                columns={[...setAdditionalPropertyConfigs(pageConfig.properties), {
+                    field: 'actions',
+                    type: 'actions',
+                    flex: 1, align: 'center', headerAlign: 'center',
+                    getActions: (params: unknown) => populateActions(params)
+                }]}
+                sx={{
+                    '&, [class^=MuiDataGrid]': { border: 'none' },
+                    [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]: {
+                        outline: 'none',
+                    },
+                    [`& .${gridClasses.columnHeader}:focus, & .${gridClasses.columnHeader}:focus-within`]:
                     {
-                        pageConfig.subtitle &&
-                        <Typography variant="overline" gutterBottom>
-                            {pageConfig.subtitle}
-                        </Typography>
-                    }
-                </Box>
-                <Box>
-                    {
-                        pageConfig.showFilter &&
-                        <Fab color="primary" aria-label="add" variant="extended" sx={{ m: 1 }}>
-                            <i className="ti ti-adjustments menu-item-icon"></i>
-                            Filter
-                        </Fab>
-                    }
-                    {
-                        pageConfig.addURL &&
-                        <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={() => navigate({ to: pageConfig.addURL })}>
-                            <i className="ti ti-plus menu-item-icon"></i>
-                        </Fab>
-                    }
-                </Box>
-            </Box>
-            <Box sx={{ p: 3, width: '100%' }}>
-                <DataGrid
-                    autoHeight
-                    disableRowSelectionOnClick
-                    rows={rows.result}
-                    columns={[...setAdditionalPropertyConfigs(pageConfig.properties), {
-                        field: 'actions',
-                        type: 'actions',
-                        flex: 1, align: 'center', headerAlign: 'center',
-                        getActions: (params: unknown) => populateActions(params)
-                    }]}
-                    sx={{
-                        '&, [class^=MuiDataGrid]': { border: 'none' },
-                        [`& .${gridClasses.cell}:focus, & .${gridClasses.cell}:focus-within`]: {
-                            outline: 'none',
+                        outline: 'none',
+                    },
+                }}
+                rowCount={Number(rows.count[0].count ?? 0)}
+                paginationModel={{
+                    pageSize: Number(offset ?? 50),
+                    page: Number(limit ?? 0),
+                }}
+                onPaginationModelChange={setPaginationModel}
+                paginationMode="server"
+                pageSizeOptions={[50, 75, 100]}
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                    toolbar: {
+                        showQuickFilter: true,
+                    },
+                }}
+                initialState={{
+                    columns: {
+                        columnVisibilityModel: {
+                            id: false,
+                            status: false,
+                            createdAt: false,
+                            updatedAt: false,
                         },
-                        [`& .${gridClasses.columnHeader}:focus, & .${gridClasses.columnHeader}:focus-within`]:
-                        {
-                            outline: 'none',
-                        },
-                    }}
-                    rowCount={Number(rows.count[0].count ?? 0)}
-                    paginationModel={{
-                        pageSize: Number(offset ?? 50),
-                        page: Number(limit ?? 0),
-                    }}
-                    onPaginationModelChange={setPaginationModel}
-                    paginationMode="server"
-                    pageSizeOptions={[50, 75, 100]}
-                    slots={{ toolbar: GridToolbar }}
-                    slotProps={{
-                        toolbar: {
-                            showQuickFilter: true,
-                        },
-                    }}
-                    initialState={{
-                        columns: {
-                            columnVisibilityModel: {
-                                id: false,
-                                status: false,
-                                createdAt: false,
-                                updatedAt: false,
-                            },
-                        },
-                    }}
-                />
-            </Box>
+                    },
+                }}
+            />
         </Box>
     )
 }

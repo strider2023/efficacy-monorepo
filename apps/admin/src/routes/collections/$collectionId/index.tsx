@@ -1,17 +1,15 @@
-import { materialRenderers, materialCells } from '@jsonforms/material-renderers';
-import { JsonForms } from '@jsonforms/react';
-import { Box, Drawer, Fab, Paper } from '@mui/material';
+import { Drawer, Fab } from '@mui/material';
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import axios from 'axios';
 import Notiflix from 'notiflix';
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { collectionSchema, collectionUISchema } from '../../../configurations';
-import AdminChildLayout from '../../../layouts/AdminChildLayout';
 import { GridRowParams, MuiEvent, GridCallbackDetails, GridColDef } from '@mui/x-data-grid';
-import ListHeader from '../../../components/ListHeader';
+import ListHeader from '../../../components/AppHeader';
 import TableComponent from '../../../components/TableComponent';
 import AddIcon from '@mui/icons-material/Add';
+import AppDataView from '../../../components/AppDataView';
+import AdminLayout from '../../../layouts/AdminLayout';
 
 export const Route = createFileRoute('/collections/$collectionId/')({
   component: ViewCollection
@@ -51,7 +49,7 @@ function ViewCollection() {
       }).then((resp) => {
         setRows(resp.data.result);
       })
-  }, [collectionId, cookies.efficacy_token]);
+  }, [baseURL, collectionId, cookies.efficacy_token]);
 
   const handleDelete = async () => {
     Notiflix.Confirm.show(
@@ -93,27 +91,13 @@ function ViewCollection() {
   }
 
   return (
-    <AdminChildLayout
-      pageGroup='Entity Management'
-      pageName='View Collection'
-      showDelete='Delete Collection'
-      showEdit='Edit Collection'
-      onDelete={handleDelete}
-      onEdit={handleEdit}>
+    <AdminLayout
+      subtitle='Entity Management'
+      title='View Collection'
+      showBack={true}>
       <>
-        <Box maxWidth="lg">
-          <form>
-            <JsonForms
-              schema={collectionSchema}
-              uischema={collectionUISchema}
-              data={formData}
-              renderers={materialRenderers}
-              cells={materialCells}
-              readonly
-            />
-          </form>
-        </Box>
-        <div className="base-container">
+        <AppDataView data={formData} />
+        {/* <div className="base-container">
           <ListHeader
             subtitle='Entity Management'
             title='Collection Properties'
@@ -123,14 +107,14 @@ function ViewCollection() {
             columns={columns}
             rows={rows}
           />
-        </div>
+        </div> */}
         <Drawer
           variant='persistent'
           anchor='right'
           open={editOpen}
           sx={{ backgroundColor: 'transparent' }}>
           <div className="base-drawer-container">
-            <Fab size="small" color="primary" aria-label="add" sx={{margin: 3}}>
+            <Fab size="small" color="primary" aria-label="add" sx={{ margin: 3 }} onClick={() => setOpen(false)}>
               <AddIcon />
             </Fab>
             <div className='base-drawer-form-container'>
@@ -139,6 +123,6 @@ function ViewCollection() {
           </div>
         </Drawer>
       </>
-    </AdminChildLayout>
+    </AdminLayout>
   );
 }

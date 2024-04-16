@@ -12,7 +12,6 @@ import PhoneIphoneRoundedIcon from '@mui/icons-material/PhoneIphoneRounded';
 import TabletMacRoundedIcon from '@mui/icons-material/TabletMacRounded';
 import LaptopWindowsRoundedIcon from '@mui/icons-material/LaptopWindowsRounded';
 import DesktopWindowsRoundedIcon from '@mui/icons-material/DesktopWindowsRounded';
-import AdminChildLayout from "../layouts/AdminChildLayout";
 
 export const Route = createFileRoute('/edit/$collection/view')({
     component: EditCollectionView
@@ -33,7 +32,7 @@ function EditCollectionView() {
             .then((data) => setCollections(data));
     }, [collection, cookies.efficacy_token]);
 
-    const handleLayoutChange = (layout) => {
+    const handleLayoutChange = (layout: any) => {
         console.log(layout)
         // if (layout.length != layouts.length) {
         //     setLayouts(layout);
@@ -45,7 +44,7 @@ function EditCollectionView() {
         setDragItem(propertyItem);
     }
 
-    const onDrop = (layout, layoutItem, _event) => {
+    const onDrop = (layout: any, layoutItem: { w: any; x: any; y: any; }, _event: any) => {
         console.log(layout, dragItem, layouts);
         const updatedLayout = [...layouts];
         updatedLayout.push({
@@ -81,7 +80,7 @@ function EditCollectionView() {
     };
 
     return (
-        <AdminChildLayout pageGroup="Collections" pageName="Edit View Collection" showDelete={false}>
+        <AdminLayout title="Collections">
             <Box sx={{ display: 'flex', flexDirection: 'row', height: '87vh' }}>
                 <div className="grid-parent-container">
                     <ToggleButtonGroup
@@ -142,6 +141,6 @@ function EditCollectionView() {
                     }
                 </Box>
             </Box>
-        </AdminChildLayout>
+        </AdminLayout>
     );
 }

@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import Fab from '@mui/material/Fab';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Autocomplete, Box, Drawer, TextField } from '@mui/material';
-import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useCookies } from 'react-cookie';
 import { fetchCollections } from '../../services';
 import { ICollection } from '../../interfaces';
@@ -32,7 +30,25 @@ function ItemDataList() {
   };
 
   return (
-    <AdminLayout>
+    <AdminLayout
+      title={'Collection Item'}
+      subtitle={'Entity Management'}
+      menuItem={
+        <>
+          {
+            collectionName &&
+            <Box>
+              <Fab color="primary" aria-label="add" variant="extended" sx={{ m: 1 }} onClick={() => setOpen(true)}>
+                <i className="ti ti-adjustments menu-item-icon"></i>
+                Filter
+              </Fab>
+              <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={navigateTo}>
+                <i className="ti ti-plus menu-item-icon"></i>
+              </Fab>
+            </Box>
+          }
+        </>
+      }>
       <Box>
         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', p: 1 }}>
           <Autocomplete
@@ -50,18 +66,6 @@ function ItemDataList() {
             )}
             renderInput={(params) => <TextField {...params} label="Collection" />}
           />
-          {
-            collectionName &&
-            <Box sx={{ flexGrow: '1', display: 'flex', justifyContent: 'flex-end' }}>
-              <Fab color="primary" aria-label="add" variant="extended" sx={{ m: 1 }} onClick={() => setOpen(true)}>
-                <i className="ti ti-adjustments menu-item-icon"></i>
-                Filter
-              </Fab>
-              <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={navigateTo}>
-                <i className="ti ti-plus menu-item-icon"></i>
-              </Fab>
-            </Box>
-          }
         </Box>
         {
           collectionName ?

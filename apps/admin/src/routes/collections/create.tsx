@@ -1,13 +1,13 @@
 import { materialRenderers, materialCells } from '@jsonforms/material-renderers';
 import { JsonForms } from '@jsonforms/react';
-import { Box } from '@mui/material';
+import { Box, Fab } from '@mui/material';
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { SetStateAction, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import AdminChildLayout from '../../layouts/AdminChildLayout';
 import axios from 'axios';
 import { collectionSchema, collectionUISchema } from '../../configurations';
 import Notiflix from 'notiflix';
+import AdminLayout from '../../layouts/AdminLayout';
 
 export const Route = createFileRoute('/collections/create')({
     component: CreateCollection
@@ -21,16 +21,16 @@ function CreateCollection() {
     const [errorData, setErrorData] = useState([]);
 
     const handleSave = async () => {
-        if (errorData.length == 0) {
-            await axios.post(baseURL + '/api/collection', formData, {
-                headers: {
-                    Authorization: `${cookies.efficacy_token}`,
-                },
-            });
-            navigate({ to: '/collections/' });
-        } else {
+        if (errorData.length > 0) {
             Notiflix.Notify.warning('Please fix errors before proceeding.', undefined, { position: 'right-bottom' });
         }
+        await axios.post(baseURL + '/api/collection', formData, {
+            headers: {
+                Authorization: `${cookies.efficacy_token}`,
+            },
+        });
+        Notiflix.Notify.success('Collection created successfully.', undefined, { position: 'right-bottom' });
+        navigate({ to: '/collections/' });
     };
 
     const handleOnChange = async (data: SetStateAction<{}>, error: any) => {
@@ -39,11 +39,15 @@ function CreateCollection() {
     }
 
     return (
-        <AdminChildLayout
-            pageGroup='Entity Management'
-            pageName='Create Collections'
-            showSave='Save Collection'
-            onSave={handleSave}>
+        <AdminLayout
+            title='New Collection'
+            subtitle='Entity Management'
+            showBack={true}
+            menuItem={
+                <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={handleSave}>
+                    <i className="ti ti-device-floppy menu-item-icon"></i>
+                </Fab>
+            }>
             <Box maxWidth="lg">
                 <form onSubmit={handleSave}>
                     <JsonForms
@@ -56,6 +60,6 @@ function CreateCollection() {
                     />
                 </form>
             </Box>
-        </AdminChildLayout>
+        </AdminLayout>
     );
 }

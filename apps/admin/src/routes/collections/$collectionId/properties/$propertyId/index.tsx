@@ -7,7 +7,7 @@ import Notiflix from 'notiflix';
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { collectionPropertySchema, collectionPropertyUISchema } from '../../../../../configurations';
-import AdminChildLayout from '../../../../../layouts/AdminChildLayout';
+import AdminLayout from '../../../../../layouts/AdminLayout';
 
 export const Route = createFileRoute('/collections/$collectionId/properties/$propertyId/')({
   component: ViewProperty
@@ -55,13 +55,10 @@ function ViewProperty() {
   }
 
   return (
-    <AdminChildLayout
-      pageGroup='Entity Management'
-      pageName='View Collection'
-      showDelete='Delete Collection'
-      showEdit='Edit Collection'
-      onDelete={handleDelete}
-      onEdit={handleEdit}>
+    <AdminLayout
+      title='View Collection Property'
+      subtitle='Entity Management'
+      showBack={true}>
       <>
         <Box maxWidth="lg">
           <form>
@@ -76,6 +73,6 @@ function ViewProperty() {
           </form>
         </Box>
       </>
-    </AdminChildLayout>
+    </AdminLayout>
   );
 }

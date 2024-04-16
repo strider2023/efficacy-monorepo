@@ -2,8 +2,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import AppDataView from '../../../components/AppDataView';
-import AdminChildLayout from '../../../layouts/AdminChildLayout';
 import Cookies from 'js-cookie';
+import AdminLayout from '../../../layouts/AdminLayout';
 
 export const Route = createFileRoute('/assets/$assetId/')({
   component: ViewAsset
@@ -43,13 +43,14 @@ function ViewAsset() {
   };
 
   return (
-    <AdminChildLayout
-      pageGroup='Asset Management'
-      pageName='View Asset'>
+    <AdminLayout
+      title='View Asset'
+      subtitle='Asset Management'
+      showBack={true}>
       <>
         <AppDataView data={formData} />
         {renderFilePreview(formData)}
       </>
-    </AdminChildLayout>
+    </AdminLayout>
   );
 }

@@ -2,10 +2,10 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import AdminChildLayout from '../../../layouts/AdminChildLayout';
 import Notiflix from 'notiflix';
 import AppDataView from '../../../components/AppDataView';
 import Cookies from 'js-cookie';
+import AdminLayout from '../../../layouts/AdminLayout';
 
 export const Route = createFileRoute('/roles/$roleId/')({
   component: ViewRole
@@ -53,10 +53,11 @@ function ViewRole() {
   }
 
   return (
-    <AdminChildLayout
-      pageGroup='Permissions Management'
-      pageName='View Role'>
+    <AdminLayout
+      title='Create Role'
+      subtitle='Permissions Management'
+      showBack={true}>
       <AppDataView data={formData} />
-    </AdminChildLayout>
+    </AdminLayout>
   );
 }
