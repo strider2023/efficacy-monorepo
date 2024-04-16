@@ -22,3 +22,11 @@ export const replaceValuesInCurlyBraces = (inputString: string, valueMap: Record
         return valueMap[key.trim()] || match;
     });
 }
+
+export const camelCaseToHumanReadable = (camelCaseString: string) => {
+    // Replace capitals with spaces followed by the lowercase version of the letter
+    // Then capitalize the first letter
+    return camelCaseString
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, function (str) { return str.toUpperCase(); });
+}

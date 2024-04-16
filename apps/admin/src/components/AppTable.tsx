@@ -79,7 +79,7 @@ function AppTable({ offset, limit, pageConfig, rows }: AppTable) {
         if (Object.prototype.hasOwnProperty.call(pageConfig, 'viewURL')) {
             actions.push(<GridActionsCellItem
                 icon={<i className="ti ti-eye menu-item-icon"></i>}
-                label="Edit"
+                label="View"
                 onClick={viewItem(params)}
                 showInMenu
             />)

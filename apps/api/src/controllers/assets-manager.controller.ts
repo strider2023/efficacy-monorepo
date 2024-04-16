@@ -6,6 +6,7 @@ import * as path from "path";
 import * as fs from 'fs';
 import { ApiError } from "@efficacy/exceptions";
 import { multerMiddleware } from "@efficacy/middlewares";
+import { Assets } from "@efficacy/schemas";
 
 @Route("api/assets")
 @Tags("Efficacy Assets Manager APIs")
@@ -45,6 +46,7 @@ export class AssetsManagerController extends Controller {
             const filePath = path.join(__dirname, '../../', assetDetails.destination, assetDetails.assetId);
             const res = request.res;
             res?.status(200);
+            res?.set('Cross-Origin-Resource-Policy', 'cross-origin');
             res?.setHeader('Content-disposition', 'attachment; filename=' + assetDetails.filename);
             res?.setHeader('Content-type', assetDetails.mimetype);
             res?.setHeader('Cache-Control', 'no-cache');
@@ -61,6 +63,14 @@ export class AssetsManagerController extends Controller {
         } catch (e) {
             throw new ApiError("Download Asset error", 500, e.message);
         }
+    }
+
+    @Get("{assetId}/metadata")
+    @Security("jwt")
+    public async getMetadata(
+        @Path() assetId: string,
+    ): Promise<Assets> {
+        return new AssetsManagerService(undefined).get(assetId, 'assetId');
     }
 
     @Delete("{assetId}")

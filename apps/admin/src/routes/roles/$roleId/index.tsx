@@ -1,13 +1,11 @@
-import { materialRenderers, materialCells } from '@jsonforms/material-renderers';
-import { JsonForms } from '@jsonforms/react';
-import { Box } from '@mui/material';
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { roleSchema, roleUISchema } from '../../../configurations';
 import AdminChildLayout from '../../../layouts/AdminChildLayout';
 import Notiflix from 'notiflix';
+import AppDataView from '../../../components/AppDataView';
+import Cookies from 'js-cookie';
 
 export const Route = createFileRoute('/roles/$roleId/')({
   component: ViewRole
@@ -24,12 +22,12 @@ function ViewRole() {
     axios.get(`${baseURL}/api/roles/${roleId}`,
       {
         headers: {
-          Authorization: `${cookies.efficacy_token}`,
+          Authorization: `${Cookies.get('efficacy_token')}`,
         },
       }).then((resp) => {
         setFormData(resp.data);
       })
-  }, [roleId, cookies.efficacy_token]);
+  }, [baseURL, roleId]);
 
   const handleDelete = async () => {
     Notiflix.Confirm.show(
@@ -57,23 +55,8 @@ function ViewRole() {
   return (
     <AdminChildLayout
       pageGroup='Permissions Management'
-      pageName='View Role'
-      showDelete='Delete Role'
-      showEdit='Edit Role'
-      onDelete={handleDelete}
-      onEdit={handleEdit}>
-      <Box maxWidth="lg">
-        <form>
-          <JsonForms
-            schema={roleSchema}
-            uischema={roleUISchema}
-            data={formData}
-            renderers={materialRenderers}
-            cells={materialCells}
-            readonly
-          />
-        </form>
-      </Box>
+      pageName='View Role'>
+      <AppDataView data={formData} />
     </AdminChildLayout>
   );
 }

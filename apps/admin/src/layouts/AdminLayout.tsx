@@ -33,7 +33,7 @@ function AdminLayout({ children }: AdminLayoutProps) {
                     <NavigationList />
                 </Drawer>
             </Hidden>
-            <Box component="main" sx={{ flexGrow: 1, height: '100vh' }}>
+            <Box component="main" sx={{ flexGrow: 1, height: '100vh', overflow: 'auto' }}>
                 {children}
             </Box>
         </Box>

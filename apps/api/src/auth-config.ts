@@ -32,7 +32,13 @@ export function expressAuthentication(
                     401,
                     err));
             } else {
-                RedisClient.getInstance().getClient().get(decoded.sessionId).then(() => {
+                RedisClient.getInstance().getClient().get(decoded.sessionId).then((value: any) => {
+                    if (value != token) {
+                        reject(new AuthError(
+                            "Authentication Error",
+                            401,
+                            "Invalid token."));
+                    }
                     if (scopes && scopes.length > 0) {
                         for (const s of scopes) {
                             if (s == 'admin' && !decoded.adminAccess) {

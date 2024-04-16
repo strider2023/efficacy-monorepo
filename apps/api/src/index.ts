@@ -56,11 +56,10 @@ try {
         RedisClient.getInstance().connect();
         knex(config).migrate.latest()
             .then(() => {
+                return knex(config).seed.run();
+            })
+            .then(() => {
                 console.log('Migration complete');
-                knex(config).seed.run()
-                    .then(() => {
-                        console.log('Data seed complete');
-                    });
             });
     });
 } catch (e) {

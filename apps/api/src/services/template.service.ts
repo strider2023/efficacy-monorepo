@@ -96,7 +96,7 @@ export class TemplateService {
             subtitle: "Permissions Management",
             showFilter: true,
             addURL: '/roles/create',
-            viewURL: '/users/{roleId}',
+            viewURL: '/roles/{roleId}',
             editURL: '/roles/{roleId}/edit',
             deleteURL: '/api/roles/{roleId}',
             properties: [
