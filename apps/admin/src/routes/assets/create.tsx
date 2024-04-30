@@ -7,7 +7,6 @@ import Notiflix from 'notiflix';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { createAssetsSchema, createAssetsUISchema } from '../../configurations';
-import AdminChildLayout from '../../layouts/AdminChildLayout';
 import Dropzone from 'react-dropzone';
 import './index.scss';
 import AdminLayout from '../../layouts/AdminLayout';

@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as MeImport } from './routes/me'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users/index'
 import { Route as RolesIndexImport } from './routes/roles/index'
@@ -40,6 +41,11 @@ import { Route as CollectionsCollectionIdPropertiesPropertyIdEditImport } from '
 import { Route as CollectionsCollectionIdItemsItemIdEditImport } from './routes/collections/$collectionId/items/$itemId/edit'
 
 // Create/Update Routes
+
+const MeRoute = MeImport.update({
+  path: '/me',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   path: '/',
@@ -194,6 +200,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/me': {
+      preLoaderRoute: typeof MeImport
+      parentRoute: typeof rootRoute
+    }
     '/assets/create': {
       preLoaderRoute: typeof AssetsCreateImport
       parentRoute: typeof rootRoute
@@ -305,6 +315,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
+  MeRoute,
   AssetsCreateRoute,
   CollectionsCreateRoute,
   EditWorkflowRoute,

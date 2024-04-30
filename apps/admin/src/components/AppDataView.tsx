@@ -18,7 +18,10 @@ function AppDataView({ data }: AppData) {
             return <p>No data found</p>
         }
         return Object.keys(data).map((key) => {
-            if (data[key] === null && !hideNull) {
+            if (data[key] === null) {
+                if (hideNull) {
+                    return <></>
+                }
                 return (
                     <Grid item xs={12} sm={6} key={key}>
                         <ListItem key={key}>

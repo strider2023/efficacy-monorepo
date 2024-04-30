@@ -1,5 +1,18 @@
 import { createFileRoute } from '@tanstack/react-router'
+import AdminLayout from '../../../../../layouts/AdminLayout';
 
 export const Route = createFileRoute('/collections/$collectionId/items/$itemId/edit')({
-  component: () => <div>Hello /collections/$collectionId/items/$itemId/edit!</div>
+  component: EditItemData
 })
+
+function EditItemData() {
+
+  return (
+    <AdminLayout
+      title='Edit Collection Item'
+      subtitle='Entity Data Management'
+      showBack={true}>
+        <></>
+    </AdminLayout>
+  );
+}

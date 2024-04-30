@@ -4,45 +4,38 @@ import { Box, Fab } from '@mui/material';
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import axios from 'axios';
 import Notiflix from 'notiflix';
-import { useState, useEffect, SetStateAction } from 'react';
-import { useCookies } from 'react-cookie';
+import { useState, SetStateAction } from 'react';
 import { updateRoleSchema, updateRoleUISchema } from '../../../configurations';
 import AdminLayout from '../../../layouts/AdminLayout';
+import Cookies from 'js-cookie';
 
 export const Route = createFileRoute('/roles/$roleId/edit')({
-  component: EditRole
+  component: EditRole,
+  loader: async ({ params: { roleId } }) => {
+    const config = { headers: { Authorization: `${Cookies.get('efficacy_token')}`, } };
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/roles/${roleId}`, config);
+    const formData = response.data;
+    delete formData.id;
+    delete formData.roleId;
+    delete formData.status;
+    return { data: formData };
+  }
 })
 
 function EditRole() {
-  const baseURL = import.meta.env.VITE_BASE_URL;
   const { roleId } = Route.useParams();
+  const { data } = Route.useLoaderData();
   const navigate = useNavigate();
-  const [cookies] = useCookies(["efficacy_token"]);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(data);
   const [errorData, setErrorData] = useState([]);
-
-  useEffect(() => {
-    axios.get(`${baseURL}/api/roles/${roleId}`,
-      {
-        headers: {
-          Authorization: `${cookies.efficacy_token}`,
-        },
-      }).then((resp) => {
-        const formData = resp.data;
-        delete formData.id;
-        delete formData.roleId;
-        delete formData.status;
-        setFormData(resp.data);
-      })
-  }, [roleId, cookies.efficacy_token]);
 
   const handleSave = async () => {
     if (errorData.length > 0) {
       Notiflix.Notify.warning('Please fix errors before proceeding.', undefined, { position: 'right-bottom' });
     }
-    await axios.put(`${baseURL}/api/roles/${roleId}`, formData, {
+    await axios.put(`${import.meta.env.VITE_BASE_URL}/api/roles/${roleId}`, formData, {
       headers: {
-        Authorization: `${cookies.efficacy_token}`,
+        Authorization: `${Cookies.get('efficacy_token')}`,
       },
     });
     Notiflix.Notify.success('Data updated successfully.', undefined, { position: 'right-bottom' });

@@ -3,8 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { IAuthProvider } from '../interfaces';
-
-const baseURL = import.meta.env.VITE_BASE_URL;
+import Cookies from 'js-cookie';
 
 const defaultContext: IAuthProvider = {
     isAuthenticated: false,
@@ -33,22 +32,22 @@ const AuthProvider = ({ children }) => {
         user: cookies.efficacy_user,
     });
 
-    if(auth.isAuthenticated && window.location.pathname == '/') {
+    if (auth.isAuthenticated && window.location.pathname == '/') {
         window.location.href = '/collections';
     }
 
-    if(!auth.isAuthenticated && window.location.pathname != '/') {
+    if (!auth.isAuthenticated && window.location.pathname != '/') {
         window.location.href = '/?redirect=' + window.location.pathname;
     }
 
     const login = async (request: unknown) => {
-        const response = await axios.post(baseURL + '/api/auth/login', request);
+        const response = await axios.post(import.meta.env.VITE_BASE_URL + '/api/auth/login', request);
         const decodedToken = jwtDecode(response.data.token);
         const expiry = new Date(parseInt(decodedToken.exp * 1000));
-        setCookie("efficacy_authenticated", true, {expires: expiry});
-        setCookie("efficacy_token", response.data.token, {expires: expiry});
-        setCookie("efficacy_refresh_token", response.data.refreshToken, {expires: expiry});
-        setCookie("efficacy_user", decodedToken, {expires: expiry});
+        setCookie("efficacy_authenticated", true, { expires: expiry });
+        setCookie("efficacy_token", response.data.token, { expires: expiry });
+        setCookie("efficacy_refresh_token", response.data.refreshToken, { expires: expiry });
+        setCookie("efficacy_user", decodedToken, { expires: expiry });
         setAuth({
             isAuthenticated: true,
             token: response.data.token,
@@ -58,8 +57,13 @@ const AuthProvider = ({ children }) => {
         window.location.href = request.callbackURL || '/items';
     };
 
-    const logout = () => {
-        // TODO: Implement logout logic
+    const logout = async () => {
+        try {
+            const config = { headers: { Authorization: `${Cookies.get('efficacy_token')}`, } };
+            await axios.patch(`${import.meta.env.VITE_BASE_URL}/api/auth/logout`, config);
+        } catch (e) {
+            console.error(e);
+        }
         removeCookie("efficacy_authenticated");
         removeCookie("efficacy_token");
         removeCookie("efficacy_refresh_token");
@@ -70,6 +74,7 @@ const AuthProvider = ({ children }) => {
             refreshToken: undefined,
             user: undefined,
         });
+        window.location.href = '/';
     };
 
     return (

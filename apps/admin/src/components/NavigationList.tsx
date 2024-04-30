@@ -1,10 +1,9 @@
 import List from '@mui/material/List';
 import { useNavigate } from '@tanstack/react-router';
 import Box from '@mui/material/Box';
-import { useCookies } from 'react-cookie';
 import Avatar from '@mui/material/Avatar';
 import { MenuItem } from '@efficacy/interfaces';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import CollapseableMenuListItem from './CollapseableMenuListItem';
 import MenuListItem from './MenuListItem';
 import { adminMenuItems, portalUserMenuItems } from '../configurations';
@@ -15,19 +14,22 @@ import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import { red } from '@mui/material/colors';
 import Divider from '@mui/material/Divider';
+import Cookies from 'js-cookie';
+import { AuthContext } from '../providers/AuthProvider';
 
 function NavigationList() {
-    const [cookies] = useCookies(["efficacy_user"]);
+    const userDetails = JSON.parse(Cookies.get('efficacy_user') ?? '');
     const [listItems, setListItems] = useState<MenuItem[]>()
     const navigate = useNavigate();
+    const auth = useContext(AuthContext);
 
     useEffect(() => {
-        if (cookies.efficacy_user.adminAccess) {
+        if (userDetails.adminAccess) {
             setListItems(adminMenuItems);
         } else {
             setListItems(portalUserMenuItems);
         }
-    }, [cookies.efficacy_user])
+    }, [userDetails])
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#181825', width: 270 }}>
@@ -50,7 +52,7 @@ function NavigationList() {
                         listItems.map((item, index) => (
                             <>
                                 {
-                                    item.hasChildren ? <CollapseableMenuListItem data={item} key={index}/> : <MenuListItem data={item} key={index}/>
+                                    item.hasChildren ? <CollapseableMenuListItem data={item} key={index} /> : <MenuListItem data={item} key={index} />
                                 }
                             </>
                         ))
@@ -62,17 +64,17 @@ function NavigationList() {
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                            {cookies.efficacy_user.firstname.charAt(0) + cookies.efficacy_user.lastname.charAt(0)}
+                            {userDetails.firstname.charAt(0) + userDetails.lastname.charAt(0)}
                         </Avatar>
                     }
-                    title={cookies.efficacy_user.firstname + " " + cookies.efficacy_user.lastname}
-                    subheader={cookies.efficacy_user.email}
+                    title={userDetails.firstname + " " + userDetails.lastname}
+                    subheader={userDetails.email}
                 />
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
+                    <IconButton aria-label="add to favorites" onClick={() => auth.logout()}>
                         <i className="ti ti-logout menu-item-icon"></i>
                     </IconButton>
-                    <IconButton aria-label="share">
+                    <IconButton aria-label="share" onClick={() => navigate({ to: '/me' })}>
                         <i className="ti ti-user-edit menu-item-icon"></i>
                     </IconButton>
                 </CardActions>

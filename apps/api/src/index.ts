@@ -11,6 +11,7 @@ import { errorHandlerMiddleware, rateLimiterConfig } from "@efficacy/middlewares
 import { RedisClient } from "./config/redis-config";
 import knex from "knex";
 import config from "@efficacy/database/src/knexfile";
+import * as path from "path";
 
 dotenv.config();
 
@@ -21,10 +22,10 @@ app.use(morgan("tiny"));
 app.use(cors());
 app.use(helmet());
 app.use(rateLimiterConfig);
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '../public/')));
 
-app.get('/', (req, res) => {
-    res.render('index');
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '../public/', 'index.html'));
 });
 
 app.use("/api-docs",
@@ -42,11 +43,11 @@ app.use("/api-docs",
 
 RegisterRoutes(app);
 
-app.use((_req, res: Response) => {
-    res.status(404).send({
-        message: "Not Found",
-    });
-});
+// app.use((_req, res: Response) => {
+//     res.status(404).send({
+//         message: "Not Found",
+//     });
+// });
 
 app.use(errorHandlerMiddleware);
 

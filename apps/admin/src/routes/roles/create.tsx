@@ -15,7 +15,6 @@ export const Route = createFileRoute('/roles/create')({
 
 function CreateRole() {
     const baseURL = import.meta.env.VITE_BASE_URL;
-    const [cookies] = useCookies(["efficacy_token"]);
     const [formData, setFormData] = useState({});
     const [errorData, setErrorData] = useState([]);
 
