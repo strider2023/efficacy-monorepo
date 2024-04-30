@@ -76,14 +76,14 @@ export class SchemaBuilder {
         tableName: string,
         props: CreateCollectionProperty) {
         try {
-            const exists = await this.knexInstance.schema.withSchema(schemaName).hasTable(tableName);
+            const exists = await this.knexInstance.schema.withSchema(schemaName).hasColumn(tableName, props.propertyName);
             if (!exists) {
                 const t = await this.knexInstance.schema.withSchema(schemaName).table(tableName, (t) => {
                     this.addTableColumn(t, props);
                     // console.log(t, exists);
                 });
             } else {
-                throw new Error(`Create Collection Property Error. Table ${tableName} already exists.`);
+                throw new Error(`Create Collection Property Error. Column ${props.propertyName} already exists.`);
             }
         } catch (e) {
             throw new Error(e.message);
@@ -95,13 +95,13 @@ export class SchemaBuilder {
         tableName: string,
         original: CollectionProperty) {
         try {
-            this.knexInstance.schema.withSchema(schemaName).hasTable(tableName).then((exists) => {
+            this.knexInstance.schema.withSchema(schemaName).hasColumn(tableName, original.propertyName).then((exists) => {
                 if (exists) {
                     this.knexInstance.schema.withSchema(schemaName).alterTable(tableName, (t) => {
                         this.addTableColumn(t, original).alter();
                     });
                 } else {
-                    throw new Error(`Create Collection Property Error. Table ${tableName} does not exists.`);
+                    throw new Error(`Create Collection Property Error. Column ${original.propertyName} does not exists.`);
                 }
             });
         } catch (e) {
@@ -137,7 +137,7 @@ export class SchemaBuilder {
             foreignKeySchema: property.foreignKeySchema,
             foreignKeyTable: property.foreignKeyTable
         })
-        property.nullable ? tableProp.notNullable() : tableProp.nullable();
+        property.nullable ? tableProp.nullable() : tableProp.notNullable();
         if (property.isUnique) {
             tableProp.unique();
         }

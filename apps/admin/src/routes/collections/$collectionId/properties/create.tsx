@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import Box from '@mui/material/Box';
-import { useCookies } from 'react-cookie';
 import { SetStateAction, useState } from 'react';
 import Notiflix from 'notiflix';
 import { materialRenderers, materialCells } from '@jsonforms/material-renderers';
@@ -8,6 +7,7 @@ import { JsonForms } from '@jsonforms/react';
 import axios from 'axios';
 import { collectionPropertySchema, collectionPropertyUISchema } from '../../../../configurations';
 import { Fab } from '@mui/material';
+import Cookies from 'js-cookie';
 import AdminLayout from '../../../../layouts/AdminLayout';
 
 export const Route = createFileRoute('/collections/$collectionId/properties/create')({
@@ -17,7 +17,6 @@ export const Route = createFileRoute('/collections/$collectionId/properties/crea
 function CreateCollectionProperties() {
     const navigate = useNavigate();
     const baseURL = import.meta.env.VITE_BASE_URL;
-    const [cookies] = useCookies(["efficacy_token"]);
     const { collectionId } = Route.useParams();
     const [formData, setFormData] = useState({});
     const [errorData, setErrorData] = useState([]);
@@ -26,15 +25,15 @@ function CreateCollectionProperties() {
         if (errorData.length > 0) {
             Notiflix.Notify.warning('Please fix errors before proceeding.', undefined, { position: 'right-bottom' });
         }
-        let request: any = formData;
+        const request: any = formData;
         request['collectionId'] = collectionId;
         await axios.post(`${baseURL}/api/collection/${collectionId}/property`, request, {
             headers: {
-                Authorization: `${cookies.efficacy_token}`,
+                Authorization: `${Cookies.get('efficacy_token')}`,
             },
         });
         Notiflix.Notify.success('Collection property added successfully.', undefined, { position: 'right-bottom' });
-        navigate({ to: '/collections/' + collectionId });
+        navigate({ to: '/collections/' + collectionId + '/properties' });
     };
 
     const handleOnChange = async (data: SetStateAction<{}>, error) => {
@@ -52,7 +51,7 @@ function CreateCollectionProperties() {
                     <i className="ti ti-device-floppy menu-item-icon"></i>
                 </Fab>
             }>
-            <Box maxWidth="lg">
+            <Box maxWidth="lg" sx={{ p: 2 }}>
                 <form onSubmit={handleSave}>
                     <JsonForms
                         schema={collectionPropertySchema}

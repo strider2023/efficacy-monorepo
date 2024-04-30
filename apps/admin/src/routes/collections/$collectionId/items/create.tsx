@@ -6,11 +6,11 @@ import { SetStateAction, useState } from 'react';
 import axios from 'axios';
 import Notiflix from 'notiflix';
 import { Fab } from '@mui/material';
-import AdminLayout from '../../../layouts/AdminLayout';
+import AdminLayout from '../../../../layouts/AdminLayout';
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
-export const Route = createFileRoute('/items/$collectionId/create')({
+export const Route = createFileRoute('/collections/$collectionId/items/create')({
     component: CreateCollectionItem,
     loader: async ({ params }) => {
         const template = await axios.get(baseURL + `/api/collection/${params.collectionId}/property/web/template`);
@@ -32,7 +32,7 @@ function CreateCollectionItem() {
         }
         await axios.post(baseURL + '/api/collection/' + collectionId + '/item', formData);
         Notiflix.Notify.success('Data added successfully.', undefined, { position: 'right-bottom' });
-        navigate({ to: '/items/' });
+        navigate({ to: `/collections/${collectionId}/items/` });
     };
 
     const handleOnChange = async (data: SetStateAction<{}>, error) => {
@@ -50,7 +50,7 @@ function CreateCollectionItem() {
                     <i className="ti ti-device-floppy menu-item-icon"></i>
                 </Fab>
             }>
-            <Box maxWidth="lg">
+            <Box maxWidth="lg" sx={{ p: 1 }}>
                 <form onSubmit={handleSave}>
                     {template.uiSchema ? (
                         <JsonForms

@@ -14,6 +14,14 @@ export class TemplatesController extends Controller {
         return new TemplateService().getUITableSchema(templateId);
     }
 
+    @Get("{collectionId}/dynamic-table")
+    // @Security("jwt")
+    public async getDynamicUITableSchema(
+        @Path() collectionId: string,
+    ): Promise<TableUISchema|undefined> {
+        return await new TemplateService().getDynamicUITableSchema(collectionId);
+    }
+
     @Get("{templateId}")
     @Security("jwt")
     public async get(

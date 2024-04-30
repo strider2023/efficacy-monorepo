@@ -14,7 +14,6 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as UsersIndexImport } from './routes/users/index'
 import { Route as RolesIndexImport } from './routes/roles/index'
-import { Route as ItemsIndexImport } from './routes/items/index'
 import { Route as CollectionsIndexImport } from './routes/collections/index'
 import { Route as AssetsIndexImport } from './routes/assets/index'
 import { Route as UsersCreateImport } from './routes/users/create'
@@ -28,16 +27,17 @@ import { Route as CollectionsCollectionIdIndexImport } from './routes/collection
 import { Route as AssetsAssetIdIndexImport } from './routes/assets/$assetId/index'
 import { Route as UsersUserIdEditImport } from './routes/users/$userId/edit'
 import { Route as RolesRoleIdEditImport } from './routes/roles/$roleId/edit'
-import { Route as ItemsCollectionIdCreateImport } from './routes/items/$collectionId/create'
 import { Route as EditCollectionViewImport } from './routes/edit.$collection.view'
 import { Route as CollectionsCollectionIdEditImport } from './routes/collections/$collectionId/edit'
 import { Route as AssetsAssetIdEditImport } from './routes/assets/$assetId/edit'
-import { Route as ItemsCollectionIdItemIdIndexImport } from './routes/items/$collectionId/$itemId/index'
 import { Route as CollectionsCollectionIdPropertiesIndexImport } from './routes/collections/$collectionId/properties/index'
-import { Route as ItemsCollectionIdItemIdEditImport } from './routes/items/$collectionId/$itemId/edit'
+import { Route as CollectionsCollectionIdItemsIndexImport } from './routes/collections/$collectionId/items/index'
 import { Route as CollectionsCollectionIdPropertiesCreateImport } from './routes/collections/$collectionId/properties/create'
+import { Route as CollectionsCollectionIdItemsCreateImport } from './routes/collections/$collectionId/items/create'
 import { Route as CollectionsCollectionIdPropertiesPropertyIdIndexImport } from './routes/collections/$collectionId/properties/$propertyId/index'
+import { Route as CollectionsCollectionIdItemsItemIdIndexImport } from './routes/collections/$collectionId/items/$itemId/index'
 import { Route as CollectionsCollectionIdPropertiesPropertyIdEditImport } from './routes/collections/$collectionId/properties/$propertyId/edit'
+import { Route as CollectionsCollectionIdItemsItemIdEditImport } from './routes/collections/$collectionId/items/$itemId/edit'
 
 // Create/Update Routes
 
@@ -53,11 +53,6 @@ const UsersIndexRoute = UsersIndexImport.update({
 
 const RolesIndexRoute = RolesIndexImport.update({
   path: '/roles/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ItemsIndexRoute = ItemsIndexImport.update({
-  path: '/items/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -127,11 +122,6 @@ const RolesRoleIdEditRoute = RolesRoleIdEditImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ItemsCollectionIdCreateRoute = ItemsCollectionIdCreateImport.update({
-  path: '/items/$collectionId/create',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const EditCollectionViewRoute = EditCollectionViewImport.update({
   path: '/edit/$collection/view',
   getParentRoute: () => rootRoute,
@@ -148,21 +138,15 @@ const AssetsAssetIdEditRoute = AssetsAssetIdEditImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ItemsCollectionIdItemIdIndexRoute =
-  ItemsCollectionIdItemIdIndexImport.update({
-    path: '/items/$collectionId/$itemId/',
-    getParentRoute: () => rootRoute,
-  } as any)
-
 const CollectionsCollectionIdPropertiesIndexRoute =
   CollectionsCollectionIdPropertiesIndexImport.update({
     path: '/collections/$collectionId/properties/',
     getParentRoute: () => rootRoute,
   } as any)
 
-const ItemsCollectionIdItemIdEditRoute =
-  ItemsCollectionIdItemIdEditImport.update({
-    path: '/items/$collectionId/$itemId/edit',
+const CollectionsCollectionIdItemsIndexRoute =
+  CollectionsCollectionIdItemsIndexImport.update({
+    path: '/collections/$collectionId/items/',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -172,15 +156,33 @@ const CollectionsCollectionIdPropertiesCreateRoute =
     getParentRoute: () => rootRoute,
   } as any)
 
+const CollectionsCollectionIdItemsCreateRoute =
+  CollectionsCollectionIdItemsCreateImport.update({
+    path: '/collections/$collectionId/items/create',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 const CollectionsCollectionIdPropertiesPropertyIdIndexRoute =
   CollectionsCollectionIdPropertiesPropertyIdIndexImport.update({
     path: '/collections/$collectionId/properties/$propertyId/',
     getParentRoute: () => rootRoute,
   } as any)
 
+const CollectionsCollectionIdItemsItemIdIndexRoute =
+  CollectionsCollectionIdItemsItemIdIndexImport.update({
+    path: '/collections/$collectionId/items/$itemId/',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 const CollectionsCollectionIdPropertiesPropertyIdEditRoute =
   CollectionsCollectionIdPropertiesPropertyIdEditImport.update({
     path: '/collections/$collectionId/properties/$propertyId/edit',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const CollectionsCollectionIdItemsItemIdEditRoute =
+  CollectionsCollectionIdItemsItemIdEditImport.update({
+    path: '/collections/$collectionId/items/$itemId/edit',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -220,10 +222,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionsIndexImport
       parentRoute: typeof rootRoute
     }
-    '/items/': {
-      preLoaderRoute: typeof ItemsIndexImport
-      parentRoute: typeof rootRoute
-    }
     '/roles/': {
       preLoaderRoute: typeof RolesIndexImport
       parentRoute: typeof rootRoute
@@ -242,10 +240,6 @@ declare module '@tanstack/react-router' {
     }
     '/edit/$collection/view': {
       preLoaderRoute: typeof EditCollectionViewImport
-      parentRoute: typeof rootRoute
-    }
-    '/items/$collectionId/create': {
-      preLoaderRoute: typeof ItemsCollectionIdCreateImport
       parentRoute: typeof rootRoute
     }
     '/roles/$roleId/edit': {
@@ -272,24 +266,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersUserIdIndexImport
       parentRoute: typeof rootRoute
     }
+    '/collections/$collectionId/items/create': {
+      preLoaderRoute: typeof CollectionsCollectionIdItemsCreateImport
+      parentRoute: typeof rootRoute
+    }
     '/collections/$collectionId/properties/create': {
       preLoaderRoute: typeof CollectionsCollectionIdPropertiesCreateImport
       parentRoute: typeof rootRoute
     }
-    '/items/$collectionId/$itemId/edit': {
-      preLoaderRoute: typeof ItemsCollectionIdItemIdEditImport
+    '/collections/$collectionId/items/': {
+      preLoaderRoute: typeof CollectionsCollectionIdItemsIndexImport
       parentRoute: typeof rootRoute
     }
     '/collections/$collectionId/properties/': {
       preLoaderRoute: typeof CollectionsCollectionIdPropertiesIndexImport
       parentRoute: typeof rootRoute
     }
-    '/items/$collectionId/$itemId/': {
-      preLoaderRoute: typeof ItemsCollectionIdItemIdIndexImport
+    '/collections/$collectionId/items/$itemId/edit': {
+      preLoaderRoute: typeof CollectionsCollectionIdItemsItemIdEditImport
       parentRoute: typeof rootRoute
     }
     '/collections/$collectionId/properties/$propertyId/edit': {
       preLoaderRoute: typeof CollectionsCollectionIdPropertiesPropertyIdEditImport
+      parentRoute: typeof rootRoute
+    }
+    '/collections/$collectionId/items/$itemId/': {
+      preLoaderRoute: typeof CollectionsCollectionIdItemsItemIdIndexImport
       parentRoute: typeof rootRoute
     }
     '/collections/$collectionId/properties/$propertyId/': {
@@ -310,24 +312,24 @@ export const routeTree = rootRoute.addChildren([
   UsersCreateRoute,
   AssetsIndexRoute,
   CollectionsIndexRoute,
-  ItemsIndexRoute,
   RolesIndexRoute,
   UsersIndexRoute,
   AssetsAssetIdEditRoute,
   CollectionsCollectionIdEditRoute,
   EditCollectionViewRoute,
-  ItemsCollectionIdCreateRoute,
   RolesRoleIdEditRoute,
   UsersUserIdEditRoute,
   AssetsAssetIdIndexRoute,
   CollectionsCollectionIdIndexRoute,
   RolesRoleIdIndexRoute,
   UsersUserIdIndexRoute,
+  CollectionsCollectionIdItemsCreateRoute,
   CollectionsCollectionIdPropertiesCreateRoute,
-  ItemsCollectionIdItemIdEditRoute,
+  CollectionsCollectionIdItemsIndexRoute,
   CollectionsCollectionIdPropertiesIndexRoute,
-  ItemsCollectionIdItemIdIndexRoute,
+  CollectionsCollectionIdItemsItemIdEditRoute,
   CollectionsCollectionIdPropertiesPropertyIdEditRoute,
+  CollectionsCollectionIdItemsItemIdIndexRoute,
   CollectionsCollectionIdPropertiesPropertyIdIndexRoute,
 ])
 

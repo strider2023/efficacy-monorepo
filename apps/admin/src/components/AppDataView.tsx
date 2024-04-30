@@ -1,5 +1,6 @@
 import { camelCaseToHumanReadable } from "@efficacy/ui-utilities";
-import { List, ListItem, ListItemText, Grid, Box } from "@mui/material";
+import { List, ListItem, ListItemText, Grid, Box, Fab } from "@mui/material";
+import { useState } from "react";
 
 interface AppData {
     data: unknown
@@ -7,12 +8,17 @@ interface AppData {
 
 function AppDataView({ data }: AppData) {
 
+    const [hideNull, setHideNull] = useState<boolean>(false);
+
     const renderData = (data: any) => {
         if (!data) {
+            if (hideNull) {
+                return <></>
+            }
             return <p>No data found</p>
         }
         return Object.keys(data).map((key) => {
-            if (data[key] === null) {
+            if (data[key] === null && !hideNull) {
                 return (
                     <Grid item xs={12} sm={6} key={key}>
                         <ListItem key={key}>
@@ -73,6 +79,27 @@ function AppDataView({ data }: AppData) {
 
     return (
         <Box maxWidth="lg">
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <Fab
+                    color="primary"
+                    aria-label="add"
+                    variant="extended"
+                    sx={{ m: 1 }}
+                    onClick={() => setHideNull(!hideNull)}>
+                    {
+                        hideNull ?
+                            <>
+                                <i className="ti ti-mist menu-item-icon"></i>
+                                Show Null
+                            </>
+                            :
+                            <>
+                                <i className="ti ti-mist-off menu-item-icon"></i>
+                                Hide Null
+                            </>
+                    }
+                </Fab>
+            </Box>
             <Grid container spacing={2}>
                 {renderData(data)}
             </Grid>

@@ -1,12 +1,13 @@
-import { Box, Fab } from '@mui/material';
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import Fab from '@mui/material/Fab';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { Box } from '@mui/material';
 import AdminLayout from '../../../../layouts/AdminLayout';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 import AppTable from '../../../../components/AppTable';
 
-export const Route = createFileRoute('/collections/$collectionId/properties/')({
-  component: CollectionsPropertiesList,
+export const Route = createFileRoute('/collections/$collectionId/items/')({
+  component: ItemDataList,
   validateSearch: (search: Record<string, unknown>): Record<string, unknown> => {
     return {
       offset: Number(search?.offset ?? 0),
@@ -17,17 +18,16 @@ export const Route = createFileRoute('/collections/$collectionId/properties/')({
   loader: async ({ deps: { offset, limit }, params: { collectionId } }) => {
     const config = { headers: { Authorization: `${Cookies.get('efficacy_token')}`, } };
     const [response1, reponse2] = await Promise.all([
-      axios.get(`${import.meta.env.VITE_BASE_URL}/api/template/collection-properties/table`, config),
-      axios.get(`${import.meta.env.VITE_BASE_URL}/api/collection/${collectionId}/property?limit=${limit}&offset=${offset}&showCount=true`, config)
+      axios.get(`${import.meta.env.VITE_BASE_URL}/api/template/${collectionId}/dynamic-table`, config),
+      axios.get(`${import.meta.env.VITE_BASE_URL}/api/collection/${collectionId}/items?limit=${limit}&offset=${offset}&showCount=true`, config)
     ]);
     return { pageConfig: response1.data, rows: reponse2.data };
   }
 })
 
-function CollectionsPropertiesList() {
+function ItemDataList() {
   const { offset, limit } = Route.useSearch()
   const { pageConfig, rows } = Route.useLoaderData();
-  const { collectionId } = Route.useParams();
   const navigate = useNavigate();
 
   return (
@@ -46,8 +46,7 @@ function CollectionsPropertiesList() {
           }
           {
             pageConfig.addURL &&
-            <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }}
-              onClick={() => navigate({ to: pageConfig.addURL.replace('{collectionId}', collectionId) })}>
+            <Fab color="primary" aria-label="add" size="medium" sx={{ m: 1 }} onClick={() => navigate({ to: pageConfig.addURL })}>
               <i className="ti ti-plus menu-item-icon"></i>
             </Fab>
           }

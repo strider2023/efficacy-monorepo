@@ -4,7 +4,7 @@ import { Box, Fab } from '@mui/material';
 import { createFileRoute } from '@tanstack/react-router'
 import axios from 'axios';
 import { useState, SetStateAction } from 'react';
-import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
 import { roleSchema, roleUISchema } from '../../configurations';
 import Notiflix from 'notiflix';
 import AdminLayout from '../../layouts/AdminLayout';
@@ -25,7 +25,7 @@ function CreateRole() {
         }
         const response = await axios.post(baseURL + '/api/roles', formData, {
             headers: {
-                Authorization: `${cookies.efficacy_token}`,
+                Authorization: `${Cookies.get('efficacy_token')}`,
             },
         });
         console.log(response.data);

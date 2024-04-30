@@ -2,12 +2,6 @@ import { MenuItem } from '@efficacy/interfaces';
 
 export const adminMenuItems: MenuItem[] = [
     {
-        name: "Collection Items",
-        icon: "ti ti-augmented-reality",
-        navigationURL: "/items",
-        hasChildren: false
-    },
-    {
         name: "Collections",
         icon: "ti ti-database",
         navigationURL: "/collections",
@@ -43,12 +37,6 @@ export const adminMenuItems: MenuItem[] = [
 ]
 
 export const portalUserMenuItems: MenuItem[] = [
-    {
-        name: "Collection Items",
-        icon: "ti ti-augmented-reality",
-        navigationURL: "/items",
-        hasChildren: false
-    },
     {
         name: "Collections",
         icon: "ti ti-database",

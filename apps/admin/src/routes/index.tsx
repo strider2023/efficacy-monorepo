@@ -30,7 +30,7 @@ function Login() {
     const request = {
       email: data.get('email'),
       password: data.get('password'),
-      callbackURL: params.get('redirect') || '/list/items'
+      callbackURL: params.get('redirect') || '/collections'
     }
     auth.login(request)
   };

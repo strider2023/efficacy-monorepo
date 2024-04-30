@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
     });
 
     if(auth.isAuthenticated && window.location.pathname == '/') {
-        window.location.href = '/items';
+        window.location.href = '/collections';
     }
 
     if(!auth.isAuthenticated && window.location.pathname != '/') {
