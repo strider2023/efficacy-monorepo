@@ -28,22 +28,35 @@ Note: It is still in early stages of development.
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env 
 
-`DB_HOST`
+`CACHE_URL=localhost:11211`
 
-`DB_PORT`
+`DB_CLIENT=pg`
 
-`DB_USERNAME`
+`DB_HOST=localhost`
 
-`DB_PASSWORD`
+`DB_PORT=5432`
 
-`DB_DATABASE`
+`DB_USERNAME=postgres`
 
-`DB_SCHEMA`
+`DB_PASSWORD=****`
 
-`NODE_ENV`
+`DB_DATABASE=efficacy`
 
+`SECRET_KEY=mysecretkey`
+
+`TOKEN_ISSUER=efficacy`
+
+`JWT_EXPIRY=28800`
+
+`ADMIN_EMAIL=test@test.com`
+
+`ADMIN_PASSWORD=test@123`
+
+`RATE_LIMITER_TIME_LIMIT_MILLIS=3600000`
+
+`RATE_LIMITER_MAX_CALL_COUNT=200`
 
 ## Run Locally
 
